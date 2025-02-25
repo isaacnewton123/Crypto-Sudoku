@@ -1,0 +1,28 @@
+/* src/styles/number-pad.css */
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.num-btn {
+  padding: 1rem;
+  font-size: 1.2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.num-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.clear-btn {
+  background: var(--secondary-color);
+  grid-column: span 2;
+}
