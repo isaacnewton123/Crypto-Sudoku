@@ -83,25 +83,6 @@ The fundamental concept behind Crypto Sudoku is to transform a familiar puzzle g
    - Collapsible header for maximum game space on mobile
    - Touch-friendly controls for mobile players
 
-## Development Roadmap
-
-### Phase 1: MVP (Current)
-- Core Sudoku gameplay
-- NFT gating
-- Basic leaderboard functionality
-- Wallet integration
-
-### Phase 2: Enhanced Experience
-- Daily puzzles with special rewards
-- Enhanced animations and effects
-- Social sharing features
-- Expanded leaderboard statistics
-
-### Phase 3: Ecosystem Growth
-- Multi-chain support
-- Tournament system
-- Player profiles and statistics
-- Governance features for community direction
 
 ## Target Audience
 
