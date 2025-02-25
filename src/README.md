@@ -81,7 +81,7 @@ The application interacts with two main contracts:
 
 1. Clone the repository
    ```
-   git clone https://github.com/your-username/sudoku-nft-rainbow.git
+   git clone https://github.com/isaacnewton123/Crpto-Sudoku
    cd sudoku-nft-rainbow
    ```
 
