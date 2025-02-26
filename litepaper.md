@@ -1,7 +1,7 @@
 # Crypto Sudoku: Play, Solve, Earn
 ## Litepaper v1.0
 
-![Crypto Sudoku](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
+![Crypto Sudoku](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/image%20(1).png)
 
 ## Executive Summary
 
@@ -84,7 +84,8 @@ The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. 
 
 ### Proposed Token Distribution
 - **Total Supply**: 100,000,000 $SUDO
-- **Player Rewards & Ecosystem**: 45% - Fuels gameplay rewards, tournaments, and community growth
+- **Player Rewards & Ecosystem**: 40% - Fuels gameplay rewards, tournaments, and community growth
+- **Airdrop & Early Testers**: 5% - Rewarding early adopters, beta testers, and community contributors
 - **Private Sale & Strategic Partners**: 20% - Early backers with vesting schedule for long-term alignment
 - **Liquidity Pool**: 15% - Ensures market stability and trading availability
 - **Development Fund**: 15% - Ongoing platform development and technical improvements
@@ -98,6 +99,12 @@ The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. 
 - **NFT Synergies**: $SUDO holders gain access to premium NFTs with enhanced features
 - **Deflationary Mechanisms**: Token burning from tournament fees and premium features
 - **Cross-Chain Functionality**: Designed for seamless operation across multiple blockchains
+
+### Community Engagement Strategy
+- **Airdrop Program**: Strategic token distribution to early players, testers, and engaged community members
+- **Beta Tester Rewards**: Special allocation for users who help identify bugs and optimize gameplay
+- **Referral System**: Token incentives for bringing new players into the ecosystem
+- **Community Challenges**: Regular events with token rewards to maintain engagement
 
 ### Flexible Economic Model
 We are committed to developing a sustainable token economy that provides value to all stakeholders. We welcome input from strategic investors on:
@@ -114,18 +121,29 @@ Our goal is to collaborate with our investors to create the most effective token
 
 ## Roadmap
 
-### Phase 1: Initial Development & Testing
-- Functional game on Mint Sepolia and Monad Testnet
-- Core gameplay mechanics and verification systems
-- NFT minting functionality
-- Blockchain-based leaderboard system
-- Fundraising and initial investor outreach
+### Phase 1: Foundation & Market Validation
+- **Successful Testnet Launch**: Functional gameplay deployed on Mint Sepolia and Monad Testnet with cryptographic verification system
+- **Strategic Proposal Submission**: Engaging with key blockchain platforms and accelerators to secure technical support
+- **Team Expansion**: Recruiting specialized talent in blockchain gaming, tokenomics, and growth marketing
+- **Early Adopter Momentum**: Building an engaged community of players with demonstrable retention metrics
+- **Strategic Fundraising Round**: Securing investment from partners who bring both capital and industry expertise
+- **Investor Integration**: Creating dedicated channels for financial backers to provide strategic guidance
+- **Data-Driven Refinement**: Implementing analytics systems to capture and act on user feedback and gameplay patterns
 
-### Phase 2: Growth & Token Implementation
-- Launch of $SUDO token 
-- Community building initiatives
-- Strategic partnerships with crypto platforms
+### Phase 2: Community Growth & Partnerships
+- Strategic partnerships with crypto platforms and gaming communities
+- Expanding player base and community building initiatives
 - Mobile-optimized gameplay experience
+- Infrastructure preparation for future token implementation
+- Mainnet deployment research and planning
+
+### Phase 3: Mainnet & Token Planning
+- **Mainnet Launch**: Planned deployment to production blockchain environments
+- **$SUDO Token Launch**: Strategic implementation of token economy
+- **Cross-Chain Expansion**: Planning for additional blockchain integrations
+- **Exchange Listings**: Preliminary discussions with exchange platforms
+- **Mobile App Development**: Native applications for Android and iOS platforms
+- **Enhanced Gameplay Features**: Roadmap for additional game modes and features
 
 We are committed to maintaining open communication and transparency with our investors throughout the development process. We welcome suggestions, feedback, and strategic input from our investment partners as we refine our roadmap and implementation strategy. Our goal is to create a collaborative environment where investor insights help shape the future of Crypto Sudoku.
 
@@ -175,3 +193,7 @@ Our team is open to discussions on investment terms, token allocation, and strat
 - **Discord**: [discord.gg/cryptosudoku](https://discord.gg/8htQ6wn9Md)
 - **Telegram**: [t.me/cryptosudokugame](https://t.me/cryptosudokugame)
 - **Email**: [info@cryptosudoku.xyz](mailto:info@cryptosudoku.xyz)
+
+---
+
+*This litepaper presents a preliminary vision that is subject to change based on investor feedback, market conditions, and technological developments. It is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any securities, tokens or other financial instruments.*
