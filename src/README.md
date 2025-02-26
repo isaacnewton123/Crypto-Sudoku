@@ -146,5 +146,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or support, please reach out to:
 - Website: [cryptosudoku.xyz](https://cryptosudoku.xyz)
-- Twitter: [@CryptoSudokuNFT](https://twitter.com/Crypto_Sudoku)
+- Twitter: [@CryptoSudoku](https://twitter.com/CryptoSudokuG)
 - Discord: [Crypto Sudoku Community](https://discord.gg/8htQ6wn9Md)
