@@ -1,7 +1,7 @@
 # Crypto Sudoku: Play, Solve, Earn
 ## Litepaper v1.0
 
-![Crypto Sudoku](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/image%20(1).png)
+![Crypto Sudoku](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
 
 ## Executive Summary
 
