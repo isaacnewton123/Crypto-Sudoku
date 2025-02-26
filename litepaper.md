@@ -83,7 +83,7 @@ Crypto Sudoku is built on a robust technology stack that ensures security, scala
 The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. **Note: The following tokenomics model is preliminary and subject to refinement based on investor feedback and market conditions.**
 
 ### Proposed Token Distribution
-- **Total Supply**: 100,000,000 $SUDO
+- **Total Supply**: 1.000.000.000 $SUDO
 - **Player Rewards & Ecosystem**: 40% - Fuels gameplay rewards, tournaments, and community growth
 - **Airdrop & Early Testers**: 5% - Rewarding early adopters, beta testers, and community contributors
 - **Private Sale & Strategic Partners**: 20% - Early backers with vesting schedule for long-term alignment
