@@ -178,3 +178,22 @@ npm start
 - Maximum allowed mistakes: 9
 - Mistake penalty: 100 points per mistake
 - Score calculation: `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)`
+
+## Team
+
+- **Hanif Maulana** - Initiator & Blockchain Specialist
+- **Ridho Tamma** - UI/UX Designer
+- **Irham Taufik** - Server Development
+- **NUBI** - Marketing Strategist & Community Management
+- **SOB Pratama** - Marketing Strategist
+
+## Contact
+
+- Email: info@cryptosudoku.xyz
+- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
+- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
+- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+
+---
+
+**Play, Solve, Earn**
