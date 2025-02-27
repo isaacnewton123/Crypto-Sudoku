@@ -154,6 +154,7 @@ Our multidisciplinary team combines expertise in blockchain development, game de
 - **Hanif Maulana** - Founder & Blockchain Specialist
 - **Ridho Tamma** - UI/UX Designer
 - **Irham Taufik** - Server Development
+- **NUBI** - Marketing Strategist & Community Management 
 - **SOB Pratama** - Marketing Strategist
 
 ## Investment Opportunity
