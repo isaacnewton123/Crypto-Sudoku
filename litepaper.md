@@ -84,12 +84,12 @@ The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. 
 
 ### Proposed Token Distribution
 - **Total Supply**: 1.000.000.000 $SUDO
-- **Player Rewards & Ecosystem**: 40% - Fuels gameplay rewards, tournaments, and community growth
+- **Player Rewards & Ecosystem**: 35% - Fuels gameplay rewards, tournaments, and community growth
 - **Airdrop & Early Testers**: 5% - Rewarding early adopters, beta testers, and community contributors
 - **Private Sale & Strategic Partners**: 20% - Early backers with vesting schedule for long-term alignment
 - **Liquidity Pool**: 15% - Ensures market stability and trading availability
 - **Development Fund**: 15% - Ongoing platform development and technical improvements
-- **Team & Advisors**: 5% - 24-month vesting with 6-month cliff
+- **Team & Advisors**: 10% - 24-month vesting with 6-month cliff
 
 ### Potential Token Utility & Value Drivers
 - **Competitive Rewards**: Top players in seasonal leaderboards earn $SUDO tokens
