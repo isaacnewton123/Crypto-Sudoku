@@ -1,118 +1,132 @@
 # Crypto Sudoku
 
-## Project Overview
+![Crypto Sudoku Logo](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
 
-Crypto Sudoku is an innovative web3 gaming application that combines the classic Sudoku puzzle game with blockchain technology. The project creates a unique gaming experience by gating access through NFT ownership and recording player achievements on-chain, bringing traditional puzzle gaming into the decentralized web3 ecosystem.
+## Where Crypto Meets Sudoku
 
-## Core Concept
+Crypto Sudoku is a revolutionary blockchain-powered Sudoku game that combines the classic puzzle-solving experience with cryptocurrency rewards. This project represents a unique intersection of traditional gaming and blockchain technology, allowing players to earn rewards for their puzzle-solving skills.
 
-The fundamental concept behind Crypto Sudoku is to transform a familiar puzzle game into a blockchain-native experience with:
 
-1. **NFT Access Control**: Players must own a specific NFT to access the game
-2. **On-chain Leaderboards**: Player scores and achievements are permanently recorded on the blockchain
-3. **Verifiable Achievements**: Game completions are cryptographically signed and verified
-4. **Seasonal Competitions**: Regular competitive seasons with potential rewards for top performers
 
-## Technical Architecture
+## 🎮 Features
+
+- **Blockchain Integration**: Built on multiple networks including Mint Sepolia and Monad Testnet
+- **NFT-Gated Gameplay**: Own an NFT to access the full game experience
+- **Leaderboard System**: Compete globally with scores stored on the blockchain
+- **Secure Score Verification**: Cryptographic signature verification to ensure fair play
+- **Seasonal Competitions**: Regular seasons with new leaderboards and rewards
+- **Dark/Light Mode**: Customizable UI experience for player comfort
+- **Mobile Responsive**: Play on any device with a responsive design
+
+
+
+## 🧩 Game Mechanics
+
+- **Points System**: Score based on completion time and mistake count
+- **Mistake Tracking**: Limited mistakes per game (maximum 10)
+- **Real-time Timer**: Race against the clock to maximize your score
+- **Sound Effects**: Audio feedback for game actions
+
+
+
+## 🔧 Technical Stack
 
 ### Frontend
-- React.js with Vite for a fast, responsive single-page application
-- RainbowKit for seamless wallet connection and a polished web3 UX
-- Custom CSS with theming system for visual coherence and accessibility
-- Optimized mobile experience with responsive design
+- React.js with Vite for fast development and building
+- Wagmi & Rainbow Kit for seamless wallet connections
+- Custom animations and UI components
+- CSS with theme support (light/dark mode)
 
-### Blockchain Integration
-- Mint Sepolia Testnet as the primary network
-- wagmi hooks for reactive blockchain state management
-- Score verification through backend signature system
-- Smart contract interaction for leaderboard submissions
+### Smart Contracts
+- Solidity 0.8.20+ for secure contract development
+- ERC-721 for NFT implementation
+- Custom Leaderboard contract with gas optimizations
+- Season-based scoring system
 
-### Game Engine
-- Custom Sudoku generation algorithm with multiple difficulty levels
-- Time-based scoring system
-- Input validation and mistake tracking
-- Sound effects and visual feedback
-
-## User Journey
-
-1. **Discovery & Onboarding**
-   - User discovers the Crypto Sudoku platform
-   - Connects their wallet via RainbowKit
-   - If they don't own the required NFT, they're directed to mint one
-
-2. **Gameplay Experience**
-   - User selects difficulty and starts a new game
-   - Plays through the Sudoku puzzle with time tracking
-   - Receives immediate feedback on correct/incorrect moves
-   - Can toggle game settings like sound and theme
-
-3. **Achievement & Recognition**
-   - Upon completion, user can submit their score to the blockchain
-   - Score is cryptographically signed by the backend to prevent cheating
-   - User can view their ranking on the leaderboard
-   - Potential to earn rewards or recognition for outstanding performance
-
-## Unique Selling Points
-
-### For Casual Gamers
-- Familiar gameplay with a blockchain twist
-- Seamless web3 onboarding through intuitive UI
-- Multiple difficulty levels for all skill ranges
-- Dark/light theme and accessibility considerations
-
-### For Crypto Enthusiasts
-- NFT utility beyond simple collection
-- On-chain achievement recording
-- Transparent, verifiable leaderboard system
-- Community competition and potential tokenized rewards
-
-## Technical Innovations
-
-1. **Secure Score Verification**
-   - Backend signing of completion data
-   - Smart contract verification of signatures
-   - Prevents cheating while maintaining decentralized ethos
-
-2. **Optimized React Performance**
-   - Efficient state management for smooth gameplay
-   - Minimal re-renders during gameplay
-   - Audio pooling system for consistent sound effects
-
-3. **Responsive Web Design**
-   - Adaptive layout for all device sizes
-   - Collapsible header for maximum game space on mobile
-   - Touch-friendly controls for mobile players
+### Security
+- Signature-based verification for game integrity
+- Secure random number generation for puzzle creation
+- Gas-optimized contracts for affordable transactions
 
 
-## Target Audience
 
-1. **Existing Crypto Users**
-   - NFT collectors looking for utility
-   - GameFi enthusiasts seeking casual experiences
-   - Web3 users interested in competitive puzzles
 
-2. **Traditional Gamers**
-   - Sudoku enthusiasts curious about blockchain
-   - Mobile puzzle gamers seeking new experiences
-   - Competitive players interested in verifiable achievements
+## 📱 How to Play
 
-3. **Learning-Oriented Users**
-   - People using games to learn about crypto
-   - Educational contexts for blockchain demonstrations
-   - New crypto users exploring web3 applications
+1. Connect your wallet
+2. Verify NFT ownership
+3. Sign the game start message
+4. Solve the Sudoku puzzle as quickly as possible with minimal mistakes
+5. Submit your score to the blockchain
+6. Compete on the leaderboard and earn rewards
 
-## Business Model
 
-- **NFT Sales**: Primary revenue from initial and ongoing NFT sales
-- **Premium Features**: Potential for premium puzzle packs or advanced features
-- **Sponsorships**: Seasonal sponsorships for leaderboard competitions
-- **Tournament Entry**: Potential for entry fee tournaments with prize pools
 
-## Community & Ecosystem Impact
+## 💻 Development Setup
 
-- Creates practical utility for NFTs beyond speculation
-- Demonstrates web3 integration in familiar gaming contexts
-- Provides accessible onboarding to blockchain technology
-- Establishes a framework for verifiable gaming achievements
+```bash
+# Clone the repository
+git clone https://github.com/isaacnewton123/crypto-sudoku.git
 
-This project represents a bridge between traditional gaming and web3 technology, creating tangible utility for NFTs while providing an enhanced version of a beloved puzzle game. By combining familiar gameplay with blockchain innovation, Crypto Sudoku aims to expand the audience for decentralized applications while providing genuine value to both casual gamers and crypto enthusiasts.
+# Navigate to the project directory
+cd crypto-sudoku
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+
+
+## 🧪 Smart Contract Deployment
+
+```bash
+# Install dependencies
+npm install
+
+# Compile contracts
+npx hardhat compile
+
+# Deploy contracts
+npx hardhat run scripts/deploy.js --network mintsepolia
+```
+
+
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+
+
+## 👥 Team
+
+- **Hanif Maulana** - Initiator & Blockchain Specialist
+- **Ridho Tamma** - UI/UX Designer
+- **Irham Taufik** - Server Development
+- **NUBI** - Marketing Strategist & Community Management
+- **SOB Pratama** - Marketing Strategist
+
+
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+
+## 📞 Contact
+
+- Email: info@cryptosudoku.xyz
+- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
+- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
+- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+
+---
+
+**Play, Solve, Earn**
