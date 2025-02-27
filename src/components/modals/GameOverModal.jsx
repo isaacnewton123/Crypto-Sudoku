@@ -1,7 +1,7 @@
 // src/components/modals/GameOverModal.jsx
 import '../../styles/modal.css';
 
-const GameOverModal = ({ show, onPlayAgain, onClose }) => {
+const GameOverModal = ({ show, onPlayAgain, onClose, isSignatureVerifying }) => {
   if (!show) return null;
 
   return (
@@ -27,8 +27,9 @@ const GameOverModal = ({ show, onPlayAgain, onClose }) => {
             onClick={onPlayAgain} 
             className="btn btn-primary"
             style={{ background: '#3b82f6' }}
+            disabled={isSignatureVerifying}
           >
-            Try Again
+            {isSignatureVerifying ? 'Please sign...' : 'Try Again'}
           </button>
           <button 
             onClick={onClose} 

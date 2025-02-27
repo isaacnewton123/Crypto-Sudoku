@@ -1,150 +1,141 @@
-# Crypto Sudoku
+# Crypto Sudoku Frontend
 
-A blockchain-powered Sudoku game with NFT integration built using React, Vite, and RainbowKit.
-
-![Crypto Sudoku NFT Game](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
+The frontend web application for Crypto Sudoku, a blockchain-powered gaming experience that combines traditional Sudoku puzzles with crypto rewards.
 
 ## Overview
 
-Crypto Sudoku is a web3-powered Sudoku game where players connect their crypto wallets to play and compete on a blockchain-based leaderboard. The game features:
-
-- Classic Sudoku gameplay with multiple difficulty levels
-- NFT-gated access (requires owning specific NFTs to play)
-- Seasonal leaderboards stored on-chain
-- Dark/light theme support
-- Sound effects and animation
-- Mobile-responsive design
-
-## Technology Stack
-
-- **Frontend**: React.js with Vite
-- **Blockchain Integration**: 
-  - RainbowKit for wallet connection
-  - wagmi for React hooks for Ethereum
-  - viem for Ethereum interactions
-- **Network**: Mint Sepolia Testnet (Chain ID: 1687)
-- **Styling**: Custom CSS with theme support
-
-## Smart Contracts
-
-The application interacts with two main contracts:
-
-1. **NFT Contract** (`0x480c9ebaba0860036c584ef70379dc82efb151bf`)
-   - Provides access control to the game
-   - Players must own at least one NFT to play
-
-2. **Leaderboard Contract** (`0x043aca1f7284705d3e05318a72f9f5fd32cb1940`)
-   - Tracks player scores and timestamps
-   - Organizes scores into seasons
-   - Prevents cheating via server-signed scores
+This React-based frontend provides the user interface and game mechanics for Crypto Sudoku. Players can connect their crypto wallets, play Sudoku puzzles, and submit their scores to the blockchain leaderboard.
 
 ## Features
 
-### Game Mechanics
+- **Blockchain Integration**: Connect with wallet providers through RainbowKit and Wagmi
+- **Game Mechanics**: Classic Sudoku gameplay with multiple difficulty levels
+- **NFT Verification**: NFT-gated access to gameplay
+- **Score Submission**: Submit verified scores to blockchain leaderboards
+- **Multi-network Support**: Compatible with Mint Sepolia and Monad Testnet
+- **Dark/Light Mode**: Theme toggling with user preference storage
+- **Sound Effects**: Immersive audio feedback with toggle capability
+- **Responsive Design**: Optimized for desktop and mobile devices
 
-- **Multiple Difficulty Levels**: Easy, Medium, Hard
-- **Score Tracking**: Time-based scoring system
-- **Mistake Tracking**: Limited to 10 mistakes per game
-- **Game States**: New Game, In Progress, Win, Game Over, Surrender
-
-### Web3 Integration
-
-- **Wallet Connection**: Connect with any supported wallet via RainbowKit
-- **Network Detection**: Automatic detection and prompting for correct network
-- **On-chain Leaderboard**: Submit scores to a transparent, decentralized leaderboard
-- **Score Verification**: Backend signature verification to prevent fake scores
-
-### User Experience
-
-- **Theme Toggle**: Light and Dark mode support with system preference detection
-- **Sound Effects**: Audio feedback for game actions with mute option
-- **Responsive Design**: Optimized for all device sizes
-- **Game Header**: Collapsible header for more screen space on mobile
-
-## Game UI Components
-
-- **Board**: 9x9 Sudoku grid with highlighting and animations
-- **Number Pad**: Input controls for placing numbers
-- **Stats Display**: Time tracker and mistake counter
-- **Modals**: Win, Game Over, Surrender, Help, and Leaderboard
-- **Home Screen**: Welcome screen with wallet connection
-
-## Installation and Setup
-
-### Prerequisites
-
-- Node.js (v16+)
-- npm or yarn
-- MetaMask or other compatible wallet
-
-### Local Development
-
-1. Clone the repository
-   ```
-   git clone https://github.com/isaacnewton123/Crpto-Sudoku
-   cd sudoku-nft-rainbow
-   ```
-
-2. Install dependencies
-   ```
-   npm install
-   ```
-
-3. Start the development server
-   ```
-   npm run dev
-   ```
-
-4. Open your browser at `http://localhost:5173`
-
-### Environment Configuration
-
-Create a `.env` file in the project root with:
+## Project Structure
 
 ```
-VITE_BACKEND_URL=<your-backend-url>
+src/
+├── components/           # React components
+│   ├── modals/           # Modal components (Win, GameOver, etc.)
+│   └── ...               # Other UI components
+├── context/              # React context providers
+│   └── ThemeContext.jsx  # Dark/light mode theming
+├── styles/               # CSS stylesheets
+│   ├── animations.css    # Animation definitions
+│   ├── board.css         # Game board styling
+│   └── ...               # Other stylesheets
+├── utils/                # Utility functions
+│   ├── audio.js          # Sound management
+│   ├── signatureService.js # Blockchain signature handling
+│   └── sudoku.js         # Sudoku puzzle generation and validation
+├── config/               # Configuration files
+│   └── networks.js       # Blockchain network definitions
+└── App.jsx               # Main application component
 ```
 
-### Building for Production
+## Tech Stack
 
-```
-npm run build
-```
-
-This will generate optimized assets in the `dist` folder.
+- **React**: UI component library
+- **Vite**: Build tool and development server
+- **RainbowKit**: Wallet connection interface
+- **Wagmi**: React hooks for Ethereum
+- **ethers.js**: Ethereum interaction library (via Wagmi)
+- **React Context API**: State management
 
 ## Game Flow
 
-1. **Home Screen**: Connect wallet and verify NFT ownership
-2. **Game Screen**: Play Sudoku with selected difficulty
-3. **Win/Lose**: View game results and submit scores to the leaderboard
-4. **Leaderboard**: Compare your scores with other players
+1. **Wallet Connection**: Player connects their crypto wallet
+2. **NFT Verification**: System checks for required NFT ownership
+3. **Game Initialization**: Player signs a message to begin a new game
+4. **Game Play**: Player solves the Sudoku puzzle with time and mistake tracking
+5. **Score Verification**: Upon completion, score is cryptographically signed
+6. **Blockchain Submission**: Verified score is submitted to the leaderboard contract
 
-## Security Considerations
+## Development Setup
 
-- Score submissions are signed by a trusted backend server
-- Signatures include puzzle hash, player address, and completion time
-- Smart contract verifies signatures before accepting scores
+1. Clone the repository:
+```bash
+git clone https://github.com/isaacnewton123/crypto-sudoku.git
+cd crypto-sudoku
+```
 
-## Future Enhancements
+2. Install dependencies:
+```bash
+npm install
+```
 
-- Enhanced NFT rewards for top players
-- Puzzle of the day feature
-- User profiles and statistics
-- More complex puzzle variations
-- Social sharing of achievements
+3. Start the development server:
+```bash
+npm run dev
+```
 
-## Contributing
+4. Build for production:
+```bash
+npm run build
+```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+5. Preview production build:
+```bash
+npm run preview
+```
 
-## License
+## Component Highlights
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Game.jsx
+The main controller component handling game state, blockchain interactions, and UI coordination.
+
+### Board.jsx
+Displays the Sudoku game board and handles cell selection and status display.
+
+### NumberPad.jsx
+Provides the number input interface for the game.
+
+### LeaderboardModal.jsx
+Displays the blockchain-based leaderboard with pagination.
+
+### WinModal.jsx
+Appears on successful game completion with score submission capabilities.
+
+## Smart Contract Interaction
+
+The frontend interacts with two main smart contracts:
+
+1. **NFT Contract**: Verifies player ownership of the required NFT
+2. **Leaderboard Contract**: Manages player scores and seasonal competitions
+
+These interactions are primarily handled in the `Game.jsx` component using Wagmi hooks.
+
+## Configuration
+
+Network-specific configurations are stored in `config/networks.js`, including:
+
+- Chain IDs
+- Network names
+- RPC URLs
+- NFT contract addresses
+- Leaderboard contract addresses
+
+## Team
+
+- **Hanif Maulana** - Initiator & Blockchain Specialist
+- **Ridho Tamma** - UI/UX Designer
+- **Irham Taufik** - Server Development
+- **NUBI** - Marketing Strategist & Community Management
+- **SOB Pratama** - Marketing Strategist
 
 ## Contact
 
-For questions or support, please reach out to:
-- Website: [cryptosudoku.xyz](https://cryptosudoku.xyz)
-- Twitter: [@CryptoSudoku](https://twitter.com/CryptoSudokuG)
-- Discord: [Crypto Sudoku Community](https://discord.gg/8htQ6wn9Md)
+- Email: info@cryptosudoku.xyz
+- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
+- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
+- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+
+---
+
+**Play, Solve, Earn**

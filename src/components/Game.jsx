@@ -1,11 +1,12 @@
 // src/components/Game.jsx
-import { useState, useEffect } from 'react';
-import { useAccount, useReadContract, useChainId, useSwitchChain } from 'wagmi';
+import { useState, useEffect, useRef } from 'react';
+import { useAccount, useReadContract, useChainId, useSwitchChain, useSignMessage } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { toast } from 'react-toastify';
 import Board from './Board';
 import NumberPad from './NumberPad';
 import StatsDisplay from './StatsDisplay';
+import PointsDisplay from './PointsDisplay'; 
 import WinModal from './modals/WinModal';
 import GameOverModal from './modals/GameOverModal';
 import SurrenderModal from './modals/SurrenderModal';
@@ -13,10 +14,16 @@ import HelpModal from './modals/HelpModal';
 import LeaderboardModal from './modals/LeaderboardModal';
 import HomeScreen from './HomeScreen';
 import ThemeToggle from './ThemeToggle';
+import CountdownAnimation from './CountdownAnimation';
 import { generateSudoku } from '../utils/sudoku';
-import { mintSepolia } from '../config/networks';
+import { mintSepolia, monadTestnet } from '../config/networks';
 import { gameAudio } from '../utils/audio';
+import { 
+  requestGameStartSignature, 
+  requestNewGameSignature 
+} from '../utils/signatureService';
 import '../styles/game-header.css';
+import '../styles/network-selector.css';
 
 // SVG Icons
 const VolumeIcon = () => (
@@ -41,8 +48,20 @@ const ChevronUpIcon = () => (
   </svg>
 );
 
-const NFT_CONTRACT = "0x480c9ebaba0860036c584ef70379dc82efb151bf";
-const LEADERBOARD_ADDRESS = "0x043aca1f7284705d3e05318a72f9f5fd32cb1940";
+// Object to store contract addresses according to the network
+const NETWORK_CONTRACTS = {
+  [mintSepolia.id]: {
+    nftContract: "0x480c9ebaba0860036c584ef70379dc82efb151bf",
+    leaderboardContract: "0x6b3fddfccfc1f7ccf54f890766e24c5d65697898",
+  },
+  [monadTestnet.id]: {
+    nftContract: "0xbcfd686f5e72cae048e7aedbac4de79f045234e2",
+    leaderboardContract: "0x2a2f9179b137a1fb718f3290cb5bda730c89dec6",
+  }
+};
+
+// Get supported networks
+const SUPPORTED_NETWORKS = [mintSepolia, monadTestnet];
 
 const NFT_ABI = [
   {
@@ -58,6 +77,7 @@ const Game = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+  const { signMessageAsync } = useSignMessage();
   
   const [gameBoard, setGameBoard] = useState(Array(9).fill().map(() => Array(9).fill(0)));
   const [solution, setSolution] = useState([]);
@@ -74,18 +94,35 @@ const Game = () => {
   const [difficulty, setDifficulty] = useState('medium');
   const [cellStatus, setCellStatus] = useState({});
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [selectedNetwork, setSelectedNetwork] = useState(null);
   const [isSoundEnabled, setIsSoundEnabled] = useState(() => {
     const saved = localStorage.getItem('sudoku-sound-enabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
+  // State for countdown animation
+  const [showCountdown, setShowCountdown] = useState(false);
+  const [isSignatureVerifying, setIsSignatureVerifying] = useState(false);
+  
+  // Reference untuk game timer
+  const startTimeRef = useRef(null);
+
+  // Get contract addresses based on active network
+  const contracts = NETWORK_CONTRACTS[chainId] || NETWORK_CONTRACTS[mintSepolia.id];
+  const nftContractAddress = contracts?.nftContract;
+  const leaderboardContractAddress = contracts?.leaderboardContract;
 
   const { data: nftBalance } = useReadContract({
-    address: NFT_CONTRACT,
+    address: nftContractAddress,
     abi: NFT_ABI,
     functionName: 'balanceOf',
     args: [address],
-    enabled: Boolean(address),
+    enabled: Boolean(address) && Boolean(nftContractAddress),
   });
+
+  // Debug countdown state changes
+  useEffect(() => {
+    console.log("showCountdown state changed:", showCountdown);
+  }, [showCountdown]);
 
   useEffect(() => {
     gameAudio.setEnabled(isSoundEnabled);
@@ -93,11 +130,16 @@ const Game = () => {
   }, [isSoundEnabled]);
 
   useEffect(() => {
-    if (isConnected && chainId !== mintSepolia.id) {
-      toast.error('Please switch to Mint Sepolia Network');
-      switchChain({ chainId: mintSepolia.id });
+    // Get selected network based on chainId
+    const currentNetwork = SUPPORTED_NETWORKS.find(network => network.id === chainId);
+    setSelectedNetwork(currentNetwork || null);
+  }, [chainId]);
+
+  useEffect(() => {
+    if (isConnected && !SUPPORTED_NETWORKS.some(network => network.id === chainId)) {
+      toast.error('Please select a supported network');
     }
-  }, [chainId, isConnected, switchChain]);
+  }, [chainId, isConnected]);
 
   useEffect(() => {
     if (isConnected && nftBalance === 0n) {
@@ -105,14 +147,27 @@ const Game = () => {
     }
   }, [isConnected, nftBalance]);
 
+  // Timer effect - menggunakan detik dengan presisi milidetik
   useEffect(() => {
-    let interval;
+    let animationFrameId;
+    
     if (isGameActive) {
-      interval = setInterval(() => {
-        setTimer(t => t + 1);
-      }, 1000);
+      startTimeRef.current = Date.now();
+      
+      const updateTimer = () => {
+        const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // Dalam detik dengan milidetik
+        setTimer(elapsedTime);
+        animationFrameId = requestAnimationFrame(updateTimer);
+      };
+      
+      animationFrameId = requestAnimationFrame(updateTimer);
     }
-    return () => clearInterval(interval);
+    
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [isGameActive]);
 
   useEffect(() => {
@@ -138,13 +193,50 @@ const Game = () => {
     setCellStatus({});
   };
 
-  const initializeGame = () => {
-    if (chainId !== mintSepolia.id) {
-      toast.error('Please switch to Mint Sepolia Network first');
-      switchChain({ chainId: mintSepolia.id });
+  // Updated with debug logs and fixed game initialization
+  const startGameWithSignature = async () => {
+    if (!SUPPORTED_NETWORKS.some(network => network.id === chainId)) {
+      toast.error('Please select a supported network');
       return;
     }
     
+    try {
+      console.log("Starting game signature process with address:", address);
+      setIsSignatureVerifying(true);
+      
+      // Reset state permainan
+      setMistakes(0);
+      setTimer(0);
+      setCellStatus({});
+      
+      // Pastikan timer berhenti
+      setIsGameActive(false);
+      
+      // Request signature from the user with signMessageAsync directly
+      console.log("Before requesting signature");
+      await requestGameStartSignature(address, signMessageAsync);
+      console.log("Signature successful, showing countdown");
+      
+      // Set gameStarted to true BEFORE showing countdown
+      setGameStarted(true);
+      console.log("Game started set to TRUE");
+      
+      // Then show the countdown
+      setShowCountdown(true);
+      console.log("State showCountdown set to TRUE");
+      
+      // Actual game initialization will happen after countdown completes
+    } catch (error) {
+      console.error("Error during signature process:", error);
+      setIsSignatureVerifying(false);
+      console.error("Failed to start game:", error);
+      // Toast error is handled in the signature service
+    }
+  };
+
+  // This function is called after countdown completes
+  const initializeGame = () => {
+    console.log("Initializing game after countdown");
     const { board, solution: newSolution } = generateSudoku(difficulty);
     setGameBoard(board);
     setSolution(newSolution);
@@ -152,9 +244,21 @@ const Game = () => {
     setTimer(0);
     setIsGameActive(true);
     setSelectedCell(null);
-    setGameStarted(true);
     setShowGameOverModal(false);
     setCellStatus({});
+    setIsSignatureVerifying(false);
+    setShowCountdown(false);
+    console.log("Game initialized successfully");
+  };
+
+  const handleCountdownComplete = () => {
+    console.log("Countdown completed");
+    setTimeout(() => {
+      // Reset timer sebelum inisialisasi game
+      setTimer(0);
+      // Kemudian inisialisasi game
+      initializeGame();
+    }, 500); // Short delay after countdown completes
   };
 
   const handleSurrender = () => {
@@ -171,6 +275,39 @@ const Game = () => {
 
   const cancelSurrender = () => {
     setShowSurrenderConfirm(false);
+  };
+
+  // Updated New Game function with signature and debug logs
+  const startNewGameWithSignature = async () => {
+    try {
+      console.log("Starting new game with signature");
+      setIsSignatureVerifying(true);
+      
+      // Reset state permainan saat memulai permainan baru
+      setMistakes(0);
+      setTimer(0);
+      setCellStatus({});
+      
+      // Pastikan timer berhenti
+      setIsGameActive(false);
+      
+      // Request signature for new game with signMessageAsync
+      console.log("Before requesting new game signature");
+      await requestNewGameSignature(address, signMessageAsync);
+      console.log("New game signature successful");
+      
+      // If signature successful, start countdown
+      setShowWinModal(false);
+      setShowGameOverModal(false);
+      setShowCountdown(true);
+      console.log("State showCountdown set to TRUE for new game");
+      
+      // Game will initialize after countdown
+    } catch (error) {
+      console.error("Error during new game signature:", error);
+      setIsSignatureVerifying(false);
+      console.error("Failed to start new game:", error);
+    }
   };
 
   const handleNumberInput = (number) => {
@@ -247,6 +384,7 @@ const Game = () => {
   };
 
   const gameWon = () => {
+    console.log('Game won! Timer:', timer, 'Mistakes:', mistakes);
     setIsGameActive(false);
     setShowWinModal(true);
     playSound('win');
@@ -258,30 +396,31 @@ const Game = () => {
     playSound('gameover');
   };
 
-  const startNewGame = () => {
-    setShowWinModal(false);
-    setShowGameOverModal(false);
-    initializeGame();
-  };
-
-  const canPlay = isConnected && nftBalance && nftBalance > 0n && chainId === mintSepolia.id;
+  const canPlay = isConnected && nftBalance && nftBalance > 0n && 
+    SUPPORTED_NETWORKS.some(network => network.id === chainId);
 
   if (!isConnected) {
     return <HomeScreen hasNFT={false} />;
   }
 
-  if (chainId !== mintSepolia.id) {
+  // Display network selection modal if not on a supported network
+  if (!SUPPORTED_NETWORKS.some(network => network.id === chainId)) {
     return (
       <div className="wrong-network-container">
         <div className="wrong-network-modal">
-          <h2>Wrong Network</h2>
-          <p>Please switch to Mint Sepolia Network to continue</p>
-          <button 
-            className="switch-network-btn"
-            onClick={() => switchChain({ chainId: mintSepolia.id })}
-          >
-            Switch to Mint Sepolia
-          </button>
+          <h2>Unsupported Network</h2>
+          <p>Please select a network to play:</p>
+          <div className="network-buttons">
+            {SUPPORTED_NETWORKS.map(network => (
+              <button 
+                key={network.id}
+                className="switch-network-btn"
+                onClick={() => switchChain({ chainId: network.id })}
+              >
+                {network.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -295,13 +434,21 @@ const Game = () => {
     return (
       <HomeScreen 
         hasNFT={true}
-        onStart={initializeGame}
+        onStart={startGameWithSignature}
+        networkName={selectedNetwork?.name}
+        isSignatureVerifying={isSignatureVerifying}
       />
     );
   }
 
   return (
     <div className="game-layout">
+      {/* Countdown Animation Component */}
+      <CountdownAnimation 
+        isActive={showCountdown} 
+        onComplete={handleCountdownComplete} 
+      />
+    
       <button 
         className={`toggle-header-btn ${!isHeaderVisible ? 'header-hidden' : ''}`}
         onClick={() => setIsHeaderVisible(!isHeaderVisible)}
@@ -315,13 +462,15 @@ const Game = () => {
           <div className="header-left">
             <button 
               className="header-button primary"
-              onClick={startNewGame}
+              onClick={startNewGameWithSignature}
+              disabled={isSignatureVerifying || showCountdown}
             >
-              New Game
+              {isSignatureVerifying ? 'Verifying...' : 'New Game'}
             </button>
             <button 
               className="header-button danger"
               onClick={handleSurrender}
+              disabled={isSignatureVerifying || showCountdown}
             >
               Surrender
             </button>
@@ -361,30 +510,43 @@ const Game = () => {
             maxMistakes={10}
           />
 
+          <PointsDisplay timer={timer} mistakes={mistakes} />
+
           {gameBoard && gameBoard.length > 0 && (
             <Board
               board={gameBoard}
               selectedCell={selectedCell}
               setSelectedCell={setSelectedCell}
               cellStatus={cellStatus}
+              isCountdownActive={showCountdown}
             />
           )}
           <NumberPad onNumberClick={handleNumberInput} />
+          
+          {/* Add active network information */}
+          <div className="network-info">
+            <p>Network: <strong>{selectedNetwork?.name}</strong></p>
+          </div>
         </div>
       </main>
 
       <WinModal
         show={showWinModal}
         onClose={() => setShowWinModal(false)}
-        onPlayAgain={startNewGame}
+        onPlayAgain={startNewGameWithSignature}
         timer={timer}
+        mistakes={mistakes}
         difficulty={difficulty}
+        leaderboardAddress={leaderboardContractAddress}
+        nftContractAddress={nftContractAddress}
+        isSignatureVerifying={isSignatureVerifying}
       />
       
       <GameOverModal
         show={showGameOverModal}
         onClose={exitGame}
-        onPlayAgain={startNewGame}
+        onPlayAgain={startNewGameWithSignature}
+        isSignatureVerifying={isSignatureVerifying}
       />
 
       <SurrenderModal
@@ -401,6 +563,7 @@ const Game = () => {
       <LeaderboardModal 
         show={showLeaderboard}
         onClose={() => setShowLeaderboard(false)}
+        leaderboardAddress={leaderboardContractAddress}
       />
     </div>
   );

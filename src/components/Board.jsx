@@ -1,9 +1,15 @@
 // src/components/Board.jsx
 import '../styles/board.css';
 
-const Board = ({ board, selectedCell, setSelectedCell, cellStatus }) => {
+const Board = ({ 
+  board, 
+  selectedCell, 
+  setSelectedCell, 
+  cellStatus,
+  isCountdownActive = false 
+}) => {
   return (
-    <div className="board-container">
+    <div className={`board-container ${isCountdownActive ? 'countdown-active' : ''}`}>
       <div className="board">
         {board.map((row, i) => 
           row.map((cell, j) => {

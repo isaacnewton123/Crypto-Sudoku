@@ -188,3 +188,210 @@
   color: var(--text-secondary);
   font-style: italic;
 }
+
+/* Tambahkan ke src/styles/modal.css */
+.score-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.score-time {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.score-mistakes {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.score-points {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.leaderboard-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--background-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+/* Tambahkan CSS ini ke file modal.css */
+
+/* TestWin Modal Styles */
+.test-win-modal {
+  max-width: 450px;
+}
+
+.test-win-modal .dev-warning {
+  color: #ff5722;
+  background-color: rgba(255, 87, 34, 0.1);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.test-win-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.test-win-inputs .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.test-win-inputs label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.test-win-inputs input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.test-win-inputs .input-hint {
+  font-size: 12px;
+  color: var(--muted-text);
+  margin-top: 2px;
+}
+
+.score-preview {
+  background-color: var(--card-bg);
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.score-preview h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.score-preview p {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Header button untuk TestWin */
+.header-button.test-win {
+  background-color: #9c27b0;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-button.test-win:hover {
+  background-color: #7b1fa2;
+}
+
+.header-button.test-win svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* Tambahkan ke modal.css atau styles/leaderboard.css */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 10px 0;
+}
+
+.pagination-btn {
+  padding: 6px 12px;
+  background-color: var(--bg-secondary);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--bg-hover);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+/* Tambahkan ke file modal.css */
+
+.test-win-modal .calculation-detail {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-top: 1px dashed var(--border-color);
+  padding-top: 6px;
+}
+
+/* Perbaikan pada score-preview */
+.score-preview {
+  background-color: var(--background-color);
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.score-preview h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.score-preview p {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: var(--primary-color);
+}
+
+/* Input validasi */
+.test-win-inputs input:invalid {
+  border-color: var(--error-color);
+}
+
+.test-win-inputs input:valid {
+  border-color: var(--success-color);
+}
+
+/* Hover pada teks bantuan */
+.input-hint {
+  transition: opacity 0.2s ease;
+  opacity: 0.8;
+}
+
+.input-group:hover .input-hint {
+  opacity: 1;
+}

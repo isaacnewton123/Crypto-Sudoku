@@ -1,74 +1,95 @@
 // src/utils/audio.js
 class GameAudio {
-    constructor() {
-      this.enabled = true;
-      this.poolSize = 3; // Number of instances per sound
-      this.audioPool = new Map();
-      this.currentIndex = new Map();
-      this.preloadAudio();
-    }
-  
-    preloadAudio() {
-      const audioFiles = {
-        correct: '/sounds/correct.wav',
-        error: '/sounds/error.wav',
-        win: '/sounds/win.wav',
-        gameover: '/sounds/gameover.wav'
-      };
-  
-      // Create pool for each sound
-      for (const [key, path] of Object.entries(audioFiles)) {
-        const pool = [];
-        for (let i = 0; i < this.poolSize; i++) {
-          const audio = new Audio(path);
-          audio.preload = 'auto';
-          pool.push(audio);
-        }
-        this.audioPool.set(key, pool);
-        this.currentIndex.set(key, 0);
+  constructor() {
+    this.enabled = true;
+    this.audioInstances = new Map(); // Single instance per sound type
+    this.lastPlayedTime = new Map(); // Track when each sound was last played
+    this.cooldownPeriod = 50; // Minimum ms between plays of the same sound
+    this.preloadAudio();
+  }
+
+  preloadAudio() {
+    const audioFiles = {
+      correct: '/sounds/correct.wav',
+      error: '/sounds/error.wav',
+      win: '/sounds/win.wav',
+      gameover: '/sounds/gameover.wav',
+      countdown: '/sounds/countdown.wav'  // Satu file untuk seluruh countdown
+    };
+
+    // Create a single instance for each sound
+    for (const [key, path] of Object.entries(audioFiles)) {
+      try {
+        const audio = new Audio(path);
+        audio.preload = 'auto';
+        this.audioInstances.set(key, audio);
+        this.lastPlayedTime.set(key, 0);
+      } catch (error) {
+        console.error(`Failed to create audio instance for ${key}:`, error);
       }
-  
-      // Warm up audio context on first user interaction
-      const warmUpAudio = () => {
-        for (const pool of this.audioPool.values()) {
-          pool[0].play().catch(() => {}).then(() => {
-            pool[0].pause();
-            pool[0].currentTime = 0;
-          });
-        }
-        document.removeEventListener('click', warmUpAudio);
-        document.removeEventListener('keydown', warmUpAudio);
-      };
-  
-      document.addEventListener('click', warmUpAudio);
-      document.addEventListener('keydown', warmUpAudio);
     }
-  
-    play(soundName) {
-      if (!this.enabled) return;
-  
-      const pool = this.audioPool.get(soundName);
-      if (!pool) return;
-  
-      // Get next audio instance from pool
-      let index = this.currentIndex.get(soundName);
-      const audio = pool[index];
-  
-      // Reset and play
+
+    // Warm up audio context on first user interaction - needed for mobile browsers
+    const warmUpAudio = () => {
+      const audio = this.audioInstances.get('correct');
+      if (audio) {
+        // Just create and immediately stop to warm up the audio context
+        audio.volume = 0.01; // Nearly silent
+        audio.play().catch(() => {}).then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.volume = 1; // Restore volume
+        });
+      }
+      document.removeEventListener('click', warmUpAudio);
+      document.removeEventListener('keydown', warmUpAudio);
+    };
+
+    document.addEventListener('click', warmUpAudio);
+    document.addEventListener('keydown', warmUpAudio);
+  }
+
+  play(soundName) {
+    if (!this.enabled) return;
+
+    const audio = this.audioInstances.get(soundName);
+    if (!audio) {
+      console.warn(`Sound not found: ${soundName}`);
+      return;
+    }
+    
+    const now = Date.now();
+    const lastPlayed = this.lastPlayedTime.get(soundName) || 0;
+    
+    // Prevent too-frequent playing of the same sound (debounce)
+    if (now - lastPlayed < this.cooldownPeriod) {
+      console.log(`Skipping sound ${soundName} - too soon after last play`);
+      return;
+    }
+    
+    // Update last played time
+    this.lastPlayedTime.set(soundName, now);
+
+    // Stop any current playback of this sound
+    try {
+      audio.pause();
       audio.currentTime = 0;
+      
+      // Play the sound
       const playPromise = audio.play();
       if (playPromise) {
-        playPromise.catch(e => console.warn('Audio playback failed:', e));
+        playPromise.catch(e => {
+          console.warn(`Audio playback failed for ${soundName}:`, e);
+        });
       }
-  
-      // Update index for next play
-      index = (index + 1) % this.poolSize;
-      this.currentIndex.set(soundName, index);
-    }
-  
-    setEnabled(enabled) {
-      this.enabled = enabled;
+    } catch (error) {
+      console.error(`Error playing sound ${soundName}:`, error);
     }
   }
-  
-  export const gameAudio = new GameAudio();
+
+  setEnabled(enabled) {
+    this.enabled = enabled;
+  }
+}
+
+export const gameAudio = new GameAudio();

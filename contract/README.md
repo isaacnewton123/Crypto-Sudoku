@@ -1,141 +1,197 @@
-# Sudoku NFT & Leaderboard System
+# Crypto Sudoku Smart Contracts
 
-A blockchain-based Sudoku game system consisting of NFT minting and a competitive leaderboard.
+Blockchain infrastructure for the Crypto Sudoku game, featuring NFT ownership verification and leaderboard management.
 
 ## Overview
 
-This project creates a complete blockchain-based Sudoku game ecosystem with two main components:
-
-1. **SudokuNFT**: An ERC721 NFT contract for minting collectible Sudoku puzzle tokens
-2. **Sudoku_Leaderboard**: A leaderboard contract that tracks and ranks player scores across competitive seasons
-
-The system includes signature verification to ensure score legitimacy and requires players to own an NFT to participate in leaderboard competitions.
+This repository contains the Solidity smart contracts that power the Crypto Sudoku game. The contracts handle NFT minting, ownership verification, and the global leaderboard system with seasonal competitions.
 
 ## Contracts
 
-### SudokuNFT
+### SudokuNFT.sol
 
-The SudokuNFT contract allows users to mint NFTs representing Sudoku puzzles.
+An ERC721 implementation that serves as the access pass for the Crypto Sudoku game.
 
-#### Features
+```solidity
+contract SudokuNFT is ERC721, Ownable {
+    using Strings for uint256;
+    
+    uint256 public constant MINT_PRICE = 0.001 ether;
+    uint256 public currentTokenId;
+    string public constant NFT_NAME = "Sudoku Puzzle";
+    string public constant NFT_DESCRIPTION = "A unique Sudoku puzzle NFT collection";
+    string public constant NFT_IMAGE = "https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/image%20(1).png";
+    
+    // ...
+}
+```
 
-- ERC721-compliant NFT implementation
-- Fixed mint price: 0.001 ETH
-- On-chain metadata with Base64 encoding
-- Owner withdrawal functionality
+**Features:**
+- Fixed mint price (0.001 ETH)
+- On-chain metadata and image
+- Owner withdrawal function
+- Automatic token ID incrementing
 
-#### Functions
+### Sudoku_Leaderboard_Optimized.sol
 
-- `mint()`: Mint a new Sudoku NFT (requires payment)
-- `tokenURI(uint256 tokenId)`: Get the token metadata URI
-- `withdraw()`: Allow owner to withdraw contract funds
-- `_encode(bytes memory data)`: Base64 encoding for on-chain metadata
+A gas-optimized contract for managing game scores and seasonal leaderboards.
 
-### Sudoku_Leaderboard
+```solidity
+contract Sudoku_Leaderboard_Optimized {
+    struct Score {
+        address player;
+        uint32 time;       // Time in seconds (uint32 is enough for 136 years)
+        uint8 mistakes;    // Number of mistakes (uint8 is enough for 0-255)
+        uint32 points;     // Calculated points (uint32 is enough for realistic points)
+        uint32 timestamp;  // Submission time (uint32 is enough until year 2106)
+    }
 
-The Sudoku_Leaderboard contract manages competitive Sudoku solving with seasonal leaderboards.
+    struct SeasonInfo {
+        uint32 startTime;
+        uint32 endTime;
+        bool isActive;
+        uint16 scoreCount; // uint16 is enough for 65535 scores
+        mapping(uint16 => Score) scores;
+    }
+    
+    // ...
+}
+```
 
-#### Features
+**Features:**
+- Seasonal competition system (30-day seasons)
+- Cryptographic signature verification for score submissions
+- Gas-optimized data structures for efficient storage
+- Top 100 scores per season with automatic sorting
+- Pagination support for frontend display
+- Configurable scoring system based on time and mistakes
 
-- Seasonal competition system with automatic rollover
-- Secure score verification using cryptographic signatures
-- NFT ownership requirement for participation
-- Top 10 scores tracked per season
+## Game Constants
 
-#### Functions
+- **Season Duration**: 30 days
+- **Grace Period**: 1 day (after season end)
+- **Maximum Scores Per Season**: 100
+- **Maximum Time**: 7200 seconds (2 hours)
+- **Maximum Mistakes**: 9
+- **Mistake Penalty**: 100 points per mistake
+- **Score Calculation**: `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)`
 
-- `addScore(uint256 _time, bytes32 _puzzleHash, bytes memory _signature)`: Submit a verified score
-- `checkAndUpdateSeason()`: Check and update season status
-- `getSeasonTopScores(uint256 _season, uint256 _limit)`: Retrieve top scores for a season
-- `getSeasonInfo(uint256 _season)`: Get information about a specific season
-- `setVerifierAddress(address _newVerifier)`: Update the verifier address
-- `setAutomationContract(address _newContract)`: Set the automation contract address
-- `automatedSeasonCheck()`: Trigger season check via automation
-- `togglePause()`: Pause/unpause the contract
-- `forceEndCurrentSeason()`: Manually end the current season
-- `transferOwnership(address newOwner)`: Transfer contract ownership
+## Score Verification System
 
-## How It Works
+The contracts use a secure verification system:
 
-### NFT Minting Process
+1. The backend server signs the player's score with a trusted private key
+2. The signature includes: time, mistakes, puzzle hash, and player address
+3. The smart contract verifies the signature before accepting the score
+4. This prevents cheating and ensures only legitimate scores enter the leaderboard
 
-1. Users call the `mint()` function on the SudokuNFT contract, sending 0.001 ETH
-2. A new NFT is minted with incremental tokenId
-3. The NFT contains metadata with name, description and image
+## Deployment Information
 
-### Score Submission Process
+**Networks:**
 
-1. Player completes a Sudoku puzzle in the frontend
-2. Score details (completion time, puzzle hash) are sent to the backend verification service
-3. Backend service verifies the score and signs the data with a private key
-4. Player submits the score along with signature to the Sudoku_Leaderboard contract
-5. Contract verifies:
-   - Player owns a Sudoku NFT
-   - Signature is valid and unused
-   - Season is active
-6. If valid, the score is inserted into the leaderboard in the correct position based on time
+1. **Mint Sepolia Testnet (ChainID: 1687)**
+   - NFT Contract: `0x480c9ebaba0860036c584ef70379dc82efb151bf`
+   - Leaderboard Contract: `0x6b3fddfccfc1f7ccf54f890766e24c5d65697898`
 
-### Season Management
+2. **Monad Testnet (ChainID: 10143)**
+   - NFT Contract: `0xbcfd686f5e72cae048e7aedbac4de79f045234e2`
+   - Leaderboard Contract: `0x2a2f9179b137a1fb718f3290cb5bda730c89dec6`
 
-- Seasons last for 30 days with a 1-day grace period
-- At the end of a season, a new season automatically begins
-- Each season tracks the top 10 fastest completion times
-- Scores can be submitted only during active seasons
+## Development Setup
 
-## Technical Details
+1. Install dependencies:
+```bash
+npm install
+```
 
-### Signature Verification
+2. Compile contracts:
+```bash
+npx hardhat compile
+```
 
-The leaderboard uses Ethereum's signature verification to ensure scores are legitimate:
+3. Run tests:
+```bash
+npx hardhat test
+```
 
-1. Backend service creates a message hash: `keccak256(time, puzzleHash, playerAddress)`
-2. Backend signs this hash with the verifier's private key
-3. Contract recovers the signer from the signature and verifies it matches the trusted verifier
+4. Deploy to testnet:
+```bash
+npx hardhat run scripts/deploy.js --network mintsepolia
+```
 
-### Security Features
+## Security Considerations
 
-- Signature replay protection: each signature can only be used once
-- NFT ownership requirement prevents unauthorized submissions
-- Admin controls for pausing and managing the system
-- Separation of verification authority from contract ownership
+- The contracts use optimized data types to reduce gas costs while maintaining security
+- Signature verification prevents unauthorized score submissions
+- Only scores in the top 100 are stored to prevent spam and save gas
+- The verifier address is controlled by the contract owner
+- Seasons can be force-ended by the owner in case of emergency
 
-## Deployment
+## Contract Interfaces
 
-### Prerequisites
+### NFT Contract
 
-- Solidity ^0.8.0 (^0.8.20 for SudokuNFT)
-- OpenZeppelin Contracts library
-- An Ethereum wallet with funds for deployment
+```solidity
+function mint() external payable;
+function tokenURI(uint256 tokenId) public view returns (string memory);
+function withdraw() external onlyOwner;
+```
 
-### Deployment Steps
+### Leaderboard Contract
 
-1. Deploy the SudokuNFT contract first
-2. Deploy the Sudoku_Leaderboard contract with the verifier address as a constructor argument
-3. Set up the backend verification service with the corresponding private key
+```solidity
+function addScore(
+    uint32 _timeSeconds, 
+    uint8 _mistakes,
+    bytes32 _puzzleHash,
+    bytes memory _signature
+) external;
 
-## Integration
+function getSeasonTopScores(uint16 _season, uint16 _limit) external view returns (
+    address[] memory players,
+    uint32[] memory times,
+    uint8[] memory mistakes,
+    uint32[] memory points,
+    uint32[] memory timestamps
+);
 
-### Backend Integration
+function getSeasonScoresPaginated(uint16 _season, uint16 _page) external view returns (
+    address[] memory players,
+    uint32[] memory times, 
+    uint8[] memory mistakes,
+    uint32[] memory points,
+    uint32[] memory timestamps
+);
 
-The system requires a backend service that:
-1. Receives and validates player score submissions
-2. Creates and signs messages in the format expected by the contract
-3. Returns signatures to the frontend for submission to the blockchain
+function getSeasonInfo(uint16 _season) external view returns (
+    uint32 startTime,
+    uint32 endTime,
+    bool isActive,
+    uint16 totalScores,
+    bool hasEnded,
+    uint16 maxScoresPerSeason
+);
+```
 
-### Frontend Integration
+## License
 
-The frontend application should:
-1. Connect to user's wallet for NFT minting and score submission
-2. Submit completed puzzles to the backend for verification
-3. Submit verified scores with signatures to the blockchain
-4. Display leaderboard data from the contract
+MIT License
 
-## Administration
+## Team
 
-The contract owner can:
-- Withdraw funds from the NFT contract
-- Update the verifier address for score validation
-- Set an automation contract for automatic season management
-- Pause/unpause the leaderboard in case of emergencies
-- Force end the current season if needed
-- Transfer ownership to a new address
+- **Hanif Maulana** - Initiator & Blockchain Specialist
+- **Ridho Tamma** - UI/UX Designer
+- **Irham Taufik** - Server Development
+- **NUBI** - Marketing Strategist & Community Management
+- **SOB Pratama** - Marketing Strategist
+
+## Contact
+
+- Email: info@cryptosudoku.xyz
+- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
+- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
+- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+
+---
+
+**Play, Solve, Earn**

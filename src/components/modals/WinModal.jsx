@@ -1,32 +1,31 @@
+// src/components/modals/WinModal.jsx
 import { useState } from 'react';
-import { useAccount, useWriteContract, useReadContract } from 'wagmi';
+import { useAccount, useWriteContract, useReadContract, useChainId } from 'wagmi';
 import { toast } from 'react-toastify';
 import { keccak256, toBytes, stringToHex } from 'viem';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
-const LEADERBOARD_ADDRESS = "0x043aca1f7284705d3e05318a72f9f5fd32cb1940";
-const NFT_CONTRACT = "0x480c9ebaba0860036c584ef70379dc82efb151bf";
-
-const LEADERBOARD_ABI = [
-  {
-    "inputs": [
-      {"internalType": "uint256", "name": "_time", "type": "uint256"},
-      {"internalType": "bytes32", "name": "_puzzleHash", "type": "bytes32"},
-      {"internalType": "bytes", "name": "_signature", "type": "bytes"}
-    ],
-    "name": "addScore",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
-
 const NFT_ABI = [
   {
     "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
     "name": "balanceOf",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "view",
+    "type": "function"
+  }
+];
+
+const LEADERBOARD_ABI = [
+  {
+    "inputs": [
+      {"internalType": "uint32", "name": "_timeSeconds", "type": "uint32"},
+      {"internalType": "uint8", "name": "_mistakes", "type": "uint8"},
+      {"internalType": "bytes32", "name": "_puzzleHash", "type": "bytes32"},
+      {"internalType": "bytes", "name": "_signature", "type": "bytes"}
+    ],
+    "name": "addScore",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ];
@@ -45,40 +44,41 @@ const CancelPopup = ({ onSubmitAgain }) => (
   </div>
 );
 
-const WinModal = ({ show, onClose, timer, difficulty }) => {
+const WinModal = ({ 
+  show, 
+  onClose, 
+  timer, 
+  mistakes,
+  difficulty, 
+  leaderboardAddress, 
+  nftContractAddress,
+  onPlayAgain,
+  isSignatureVerifying 
+}) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { address } = useAccount();
+  const chainId = useChainId();
   
   // Check NFT ownership
   const { data: nftBalance } = useReadContract({
-    address: NFT_CONTRACT,
+    address: nftContractAddress,
     abi: NFT_ABI,
     functionName: 'balanceOf',
     args: [address],
-    enabled: show && Boolean(address),
+    enabled: show && Boolean(address) && Boolean(nftContractAddress),
   });
 
-  const { writeContract, isPending } = useWriteContract({
-    mutation: {
-      onSuccess: () => {
-        setIsSubmitted(true);
-        toast.success('Score submitted successfully!');
-      },
-      onError: (error) => {
-        console.error('Contract error:', error);
-        toast.error('Failed to submit score to blockchain');
-        setShowCancelPopup(true);
-      }
-    }
-  });
+  const { writeContractAsync, isPending } = useWriteContract();
 
   if (!show) return null;
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const secs = Math.floor(seconds % 60);
+    const ms = Math.floor((seconds * 1000) % 1000);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
   };
 
   const handleSubmitScore = async () => {
@@ -87,13 +87,29 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
       return;
     }
 
+    if (!leaderboardAddress) {
+      toast.error('Leaderboard contract address not available');
+      return;
+    }
+
     setShowCancelPopup(false);
+    setIsSubmitting(true);
     
     try {
+      console.log("Starting score submission process");
+      
+      // PENTING: Konversi waktu ke detik (integer) dengan benar
+      const timeSeconds = Math.floor(timer); // Gunakan floor untuk konsistensi
+      const mistakesCount = Math.floor(mistakes); // Pastikan integer
+      
+      // Debug info
+      console.log(`Submitting score: ${timeSeconds} seconds, ${mistakesCount} mistakes`);
+      
       // Generate puzzle hash
       const puzzleData = {
         difficulty,
-        time: timer,
+        timeSeconds,
+        mistakes: mistakesCount,
         player: address
       };
       
@@ -103,14 +119,16 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
         toBytes(stringToHex(JSON.stringify(puzzleData)))
       );
 
+      // GET SIGNATURE FROM BACKEND
       console.log('Sending to backend:', {
         playerAddress: address,
-        time: timer,
+        timeSeconds: timeSeconds,
+        mistakes: mistakesCount,
         puzzleHash: puzzleHash,
-        difficulty: difficulty
+        difficulty: difficulty,
+        chainId: chainId
       });
 
-      // Get signature from backend
       const response = await fetch(`${BACKEND_URL}/sign-score`, {
         method: 'POST',
         headers: {
@@ -118,9 +136,11 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
         },
         body: JSON.stringify({
           playerAddress: address,
-          time: Number(timer),
+          timeSeconds: timeSeconds, // Kirim waktu dalam detik
+          mistakes: mistakesCount,
           puzzleHash: puzzleHash,
-          difficulty: difficulty
+          difficulty: difficulty,
+          chainId: chainId
         }),
       });
 
@@ -129,48 +149,44 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
         throw new Error(errorData.error || 'Failed to get signature');
       }
 
-      const { signature, verifierAddress } = await response.json();
-      
-      console.log('Submitting to blockchain:', {
-        timer: BigInt(timer),
-        puzzleHash,
-        signature,
-        verifierAddress // untuk debug
-      });
+      const { signature } = await response.json();
 
-      // Submit to blockchain with debug info
+      // SUBMIT TO BLOCKCHAIN
       try {
         console.log('Contract parameters:', {
-          address: LEADERBOARD_ADDRESS,
+          address: leaderboardAddress,
           functionName: 'addScore',
           args: [
-            BigInt(timer), // time
-            puzzleHash,    // puzzleHash
-            signature     // signature
+            BigInt(timeSeconds),   // waktu dalam detik sebagai BigInt
+            BigInt(mistakesCount),      // mistakes sebagai BigInt
+            puzzleHash,            // puzzleHash
+            signature              // signature
           ]
         });
 
-        await writeContract({
-          address: LEADERBOARD_ADDRESS,
+        // Menggunakan writeContractAsync
+        const txResult = await writeContractAsync({
+          address: leaderboardAddress,
           abi: LEADERBOARD_ABI,
           functionName: 'addScore',
-          args: [BigInt(timer), puzzleHash, signature],
+          args: [BigInt(timeSeconds), BigInt(mistakesCount), puzzleHash, signature],
         });
+        
+        console.log('Transaction result:', txResult);
+        
+        setIsSubmitted(true);
+        setIsSubmitting(false);
+        toast.success('Score submitted successfully!');
+
       } catch (contractError) {
-        console.error('Contract call error details:', {
-          error: contractError,
-          params: {
-            time: timer,
-            puzzleHash: puzzleHash,
-            signature: signature
-          }
-        });
+        console.error('Contract call error details:', contractError);
         throw contractError;
       }
 
     } catch (error) {
       console.error('Full error:', error);
       toast.error(error.message || 'Failed to submit score');
+      setIsSubmitting(false);
       setShowCancelPopup(true);
     }
   };
@@ -186,7 +202,7 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
   }
 
   // Processing view
-  if (isPending) {
+  if (isPending || isSubmitting) {
     return (
       <div className="modal-overlay">
         <div className="modal-content">
@@ -194,6 +210,7 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
           <div className="modal-body">
             <p>Please confirm the transaction in your wallet...</p>
             <p>Time: <strong>{formatTime(timer)}</strong></p>
+            <p>Mistakes: <strong>{mistakes}</strong></p>
           </div>
         </div>
       </div>
@@ -209,10 +226,19 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
           <div className="modal-body">
             <p>Your score has been submitted to the leaderboard!</p>
             <p>Time: <strong>{formatTime(timer)}</strong></p>
+            <p>Mistakes: <strong>{mistakes}</strong></p>
+            <p>The better your time and fewer mistakes, the higher your score!</p>
           </div>
           <div className="modal-footer">
-            <button onClick={handleDone} className="btn btn-primary">
-              Done
+            <button 
+              onClick={onPlayAgain} 
+              className="btn btn-primary"
+              disabled={isSignatureVerifying}
+            >
+              {isSignatureVerifying ? 'Please sign...' : 'Play Again'}
+            </button>
+            <button onClick={handleDone} className="btn btn-secondary">
+              Exit
             </button>
           </div>
         </div>
@@ -228,22 +254,31 @@ const WinModal = ({ show, onClose, timer, difficulty }) => {
         <div className="modal-body">
           <p>You've completed the puzzle!</p>
           <p>Time: <strong>{formatTime(timer)}</strong></p>
+          <p>Mistakes: <strong>{mistakes}</strong></p>
           {difficulty && (
             <p>Difficulty: <strong>{difficulty}</strong></p>
           )}
         </div>
         <div className="modal-footer">
           {nftBalance && nftBalance > 0n ? (
-            <button onClick={handleSubmitScore} className="btn btn-primary">
-              Submit Score
+            <button 
+              onClick={handleSubmitScore} 
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit Score'}
             </button>
           ) : (
             <div className="error-message">
               You need to own the NFT to submit scores
             </div>
           )}
-          <button onClick={onClose} className="btn btn-secondary">
-            Close
+          <button 
+            onClick={onPlayAgain} 
+            className="btn btn-secondary"
+            disabled={isSignatureVerifying}
+          >
+            {isSignatureVerifying ? 'Please sign...' : 'Play Again'}
           </button>
         </div>
       </div>
