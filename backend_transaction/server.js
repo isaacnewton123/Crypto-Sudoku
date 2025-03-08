@@ -8,7 +8,7 @@ const app = express();
 
 // Setup CORS
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], 
+  origin: ['https://app.cryptosudoku.xyz', 'http://app.cryptosudoku.xyz', 'http://localhost:5173', 'http://localhost:3000'], 
   methods: ['POST', 'GET', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
@@ -21,7 +21,7 @@ const SUPPORTED_NETWORKS = {
   1687: {
     name: 'Mint Sepolia',
     contractAddresses: {
-      nft: '0x480c9ebaba0860036c584ef70379dc82efb151bf',
+      nft: '0x5E5b7277FFD01CC442184a1c2d375F421f3a1562',
       leaderboard: '0x6b3fddfccfc1f7ccf54f890766e24c5d65697898'
     }
   },
@@ -29,7 +29,7 @@ const SUPPORTED_NETWORKS = {
   10143: {
     name: 'Monad Testnet',
     contractAddresses: {
-      nft: '0xbcfd686f5e72cae048e7aedbac4de79f045234e2',
+      nft: '0x74ffe581f893a630db0094757eb8f9c47108606b',
       leaderboard: '0x2a2f9179b137a1fb718f3290cb5bda730c89dec6'
     }
   }

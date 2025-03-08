@@ -10,27 +10,32 @@ This repository contains the Solidity smart contracts that power the Crypto Sudo
 
 ### SudokuNFT.sol
 
-An ERC721 implementation that serves as the access pass for the Crypto Sudoku game.
+An enhanced ERC721Enumerable implementation that serves as the access pass for the Crypto Sudoku game, with improved security features.
 
 ```solidity
-contract SudokuNFT is ERC721, Ownable {
+contract SudokuNFT is ERC721Enumerable, Ownable, ReentrancyGuard {
     using Strings for uint256;
     
-    uint256 public constant MINT_PRICE = 0.001 ether;
+    uint256 public constant MINT_PRICE = 0.01 ether;
+    uint256 public constant MAX_SUPPLY = 10000;
     uint256 public currentTokenId;
-    string public constant NFT_NAME = "Sudoku Puzzle";
-    string public constant NFT_DESCRIPTION = "A unique Sudoku puzzle NFT collection";
-    string public constant NFT_IMAGE = "https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/image%20(1).png";
+    bool public mintingActive = true;
+    mapping(address => bool) public hasMinted;
     
     // ...
 }
 ```
 
 **Features:**
-- Fixed mint price (0.001 ETH)
+- Fixed mint price (0.01 ETH)
+- Maximum supply cap (10,000 NFTs)
+- One mint per wallet restriction (except for owner)
 - On-chain metadata and image
-- Owner withdrawal function
+- Secure owner withdrawal function with reentrancy protection
+- Enhanced error handling with custom error types
 - Automatic token ID incrementing
+- Token supply tracking
+- Minting status control
 
 ### Sudoku_Leaderboard_Optimized.sol
 
@@ -76,6 +81,19 @@ contract Sudoku_Leaderboard_Optimized {
 - **Mistake Penalty**: 100 points per mistake
 - **Score Calculation**: `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)`
 
+## NFT Contract Updates
+
+The new SudokuNFT contract includes several improvements:
+
+- **Enhanced Security**: Added ReentrancyGuard to prevent reentrancy attacks
+- **Improved Token Management**: Implemented ERC721Enumerable for better token tracking
+- **Supply Cap**: Added a MAX_SUPPLY of 10,000 NFTs
+- **Anti-Spam Feature**: One mint per wallet restriction (except for owner)
+- **Custom Error Types**: Replaced require statements with custom errors for better gas efficiency
+- **Minting Control**: Added ability to enable/disable minting
+- **Better Metadata Handling**: Memory variables instead of constants for NFT properties
+- **Comprehensive Events**: Added events for all important state changes
+
 ## Score Verification System
 
 The contracts use a secure verification system:
@@ -90,11 +108,11 @@ The contracts use a secure verification system:
 **Networks:**
 
 1. **Mint Sepolia Testnet (ChainID: 1687)**
-   - NFT Contract: `0x480c9ebaba0860036c584ef70379dc82efb151bf`
+   - NFT Contract: `0x5E5b7277FFD01CC442184a1c2d375F421f3a1562`
    - Leaderboard Contract: `0x6b3fddfccfc1f7ccf54f890766e24c5d65697898`
 
 2. **Monad Testnet (ChainID: 10143)**
-   - NFT Contract: `0xbcfd686f5e72cae048e7aedbac4de79f045234e2`
+   - NFT Contract: `0x74ffe581f893a630db0094757eb8f9c47108606b`
    - Leaderboard Contract: `0x2a2f9179b137a1fb718f3290cb5bda730c89dec6`
 
 ## Development Setup
@@ -122,6 +140,8 @@ npx hardhat run scripts/deploy.js --network mintsepolia
 ## Security Considerations
 
 - The contracts use optimized data types to reduce gas costs while maintaining security
+- ReentrancyGuard protects against reentrancy attacks in critical functions
+- Check-Effects-Interactions pattern used throughout for secure state transitions
 - Signature verification prevents unauthorized score submissions
 - Only scores in the top 100 are stored to prevent spam and save gas
 - The verifier address is controlled by the contract owner
@@ -132,9 +152,14 @@ npx hardhat run scripts/deploy.js --network mintsepolia
 ### NFT Contract
 
 ```solidity
-function mint() external payable;
-function tokenURI(uint256 tokenId) public view returns (string memory);
-function withdraw() external onlyOwner;
+function mint() external payable nonReentrant mintingAllowed;
+function setMintingActive(bool _status) external onlyOwner;
+function tokenURI(uint256 tokenId) public view virtual override returns (string memory);
+function getMaxSupply() external pure returns (uint256);
+function isMintingActive() external view returns (bool);
+function hasWalletMinted(address wallet) external view returns (bool);
+function remainingTokens() external view returns (uint256);
+function withdraw() external onlyOwner nonReentrant;
 ```
 
 ### Leaderboard Contract

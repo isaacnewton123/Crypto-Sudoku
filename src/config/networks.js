@@ -17,7 +17,7 @@ export const mintSepolia = {
   },
   contracts: {
     nft: {
-      address: '0x480c9ebaba0860036c584ef70379dc82efb151bf',
+      address: '0x5E5b7277FFD01CC442184a1c2d375F421f3a1562',
       abi: [
         {
           "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
@@ -116,7 +116,7 @@ export const monadTestnet = {
   contracts: {
     nft: {
       // Alamat NFT contract untuk Monad Testnet
-      address: '0xbcfd686f5e72cae048e7aedbac4de79f045234e2', 
+      address: '0x74ffe581f893a630db0094757eb8f9c47108606b', 
       abi: [
         {
           "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],

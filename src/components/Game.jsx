@@ -51,11 +51,11 @@ const ChevronUpIcon = () => (
 // Object to store contract addresses according to the network
 const NETWORK_CONTRACTS = {
   [mintSepolia.id]: {
-    nftContract: "0x480c9ebaba0860036c584ef70379dc82efb151bf",
+    nftContract: "0x5E5b7277FFD01CC442184a1c2d375F421f3a1562",
     leaderboardContract: "0x6b3fddfccfc1f7ccf54f890766e24c5d65697898",
   },
   [monadTestnet.id]: {
-    nftContract: "0xbcfd686f5e72cae048e7aedbac4de79f045234e2",
+    nftContract: "0x74ffe581f893a630db0094757eb8f9c47108606b",
     leaderboardContract: "0x2a2f9179b137a1fb718f3290cb5bda730c89dec6",
   }
 };

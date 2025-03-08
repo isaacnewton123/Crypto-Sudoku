@@ -4,7 +4,7 @@ import { useAccount, useWriteContract, useReadContract, useChainId } from 'wagmi
 import { toast } from 'react-toastify';
 import { keccak256, toBytes, stringToHex } from 'viem';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://api.cryptosudoku.xyz';
 const NFT_ABI = [
   {
     "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
