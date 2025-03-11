@@ -1,28 +1,40 @@
-# Crypto Sudoku Backend
+# Crypto Sudoku Backend Server
 
-Verification server for the Crypto Sudoku blockchain game.
+![Crypto Sudoku Logo](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
 
-## Overview
+## Verification server for the Crypto Sudoku blockchain game
+
+[![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-v4.21-blue.svg)](https://expressjs.com/)
+[![Ethers.js](https://img.shields.io/badge/Ethers.js-v6-purple.svg)](https://docs.ethers.org/v6/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+## 🌟 Overview
 
 This Node.js server handles the signature generation and score verification for the Crypto Sudoku game. It serves as the trusted middleware between the frontend game and the blockchain, ensuring that only valid scores are submitted to the leaderboard contract.
 
-## Features
+## ✨ Key Features
 
-- **Score Signing**: Cryptographically signs valid game scores using the verifier private key
-- **Multi-Network Support**: Compatible with Mint Sepolia and Monad Testnet
-- **Score Validation**: Verifies time and mistake counts are within valid ranges
-- **Points Calculation**: Implements the same scoring algorithm as the smart contract
-- **Security Measures**: Input validation and address verification
+- **🔏 Cryptographic Verification**: Signs valid game scores using the verifier private key
+- **✅ Score Validation**: Verifies time and mistake counts against contract constraints
+- **🧮 Points Calculation**: Implements the same scoring algorithm as the smart contract
+- **⛓️ Multi-Network Support**: Compatible with Mint Sepolia and Monad Testnet
+- **🔒 Security Measures**: Comprehensive input validation and signature uniqueness
+- **💓 Health Monitoring**: Status endpoints for service monitoring
+- **🌐 Cross-Origin Support**: Configured CORS for secure frontend communication
 
-## Tech Stack
+## 🛠️ Technical Stack
 
-- **Node.js**: Runtime environment
-- **Express.js**: Web server framework
-- **ethers.js**: Ethereum interaction library
-- **dotenv**: Environment variable management
-- **CORS**: Cross-origin resource sharing support
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| Runtime | Node.js | JavaScript execution environment |
+| Web Framework | Express.js | HTTP server and routing |
+| Blockchain Integration | ethers.js v6 | Ethereum interaction and cryptography |
+| Configuration | dotenv | Environment variable management |
+| Security | CORS | Cross-origin resource sharing protection |
+| Error Handling | Custom middleware | Structured error responses |
 
-## API Endpoints
+## 🔌 API Endpoints
 
 ### POST `/sign-score`
 
@@ -132,68 +144,160 @@ Health check endpoint with server status.
 }
 ```
 
-## Setup Instructions
+## 🏗️ Architecture
 
-1. Clone the repository:
-```bash
-git clone https://github.com/isaacnewton123/crypto-sudoku/backend_transaction.git
-cd backend_transaction
+```
+backend_transaction/
+├── server.js              # Main server file with API endpoints
+├── utils/                 # Utility functions
+│   ├── crypto.js          # Cryptographic utilities
+│   ├── validation.js      # Input validation
+│   └── scoring.js         # Score calculation logic
+├── config/                # Configuration files
+│   ├── networks.js        # Network definitions
+│   └── constants.js       # Game constants
+├── middleware/            # Express middleware
+│   ├── auth.js            # Authentication middleware
+│   └── validation.js      # Request validation
+└── services/              # Service layer
+    └── signer.js          # Signature generation service
 ```
 
-2. Install dependencies:
+## 🔐 Security Considerations
+
+| Aspect | Implementation | Purpose |
+|--------|----------------|---------|
+| **Private Key Security** | Environment variables | Secure storage of sensitive keys |
+| **Input Validation** | Request validation middleware | Prevent malicious inputs |
+| **Rate Limiting** | Express rate-limit | Prevent abuse and DoS attacks |
+| **CORS Protection** | Configured allow-list | Restrict access to known origins |
+| **Signature Uniqueness** | Puzzle hash verification | Prevent replay attacks |
+| **Error Handling** | Sanitized responses | Prevent information leakage |
+
+## 💻 Development Setup
+
+### Prerequisites
+- Node.js 16+ and npm
+- Access to the contract addresses for supported networks
+- Wallet with verifier private key
+
+### Installation
+
 ```bash
+# Clone the repository
+git clone https://github.com/isaacnewton123/crypto-sudoku.git
+cd crypto-sudoku/backend_transaction
+
+# Install dependencies
 npm install
 ```
 
-3. Create a `.env` file in the root directory:
+### Configuration
+
+Create a `.env` file in the root directory:
+
 ```
-VERIFIER_PRIVATE_KEY=your_private_key_here
 PORT=3001
+VERIFIER_PRIVATE_KEY=your_private_key_here  # The private key from the address used during deployment
+NODE_ENV=development  # Set to 'production' for production environment
 ```
 
-4. Start the development server:
+### Running the Server
+
 ```bash
+# Development mode with hot reloading
 npm run dev
-```
 
-5. For production:
-```bash
+# Production mode
 npm start
 ```
 
-## Environment Variables
+## 🚀 Deployment Guide
 
-- `VERIFIER_PRIVATE_KEY`: Private key of the wallet that signs scores
-- `PORT`: Server port (defaults to 3001)
+### Production Environment Variables
+For production deployment, ensure the following environment variables are set:
 
-## Security Considerations
+```
+PORT=3001
+VERIFIER_PRIVATE_KEY=your_private_key_here
+NODE_ENV=production
+ALLOWED_ORIGINS=https://app.cryptosudoku.xyz,https://www.cryptosudoku.xyz
+```
 
-- Keep the `VERIFIER_PRIVATE_KEY` secure and never commit it to version control
-- The server should be deployed in a secure environment with HTTPS
-- Only allow requests from trusted origins using CORS configuration
+### Server Requirements
+- Node.js 16+
+- 1GB RAM minimum
+- 10GB disk space
+- HTTPS configuration
 
-## Game Constants
+### Deployment Steps
 
-- Maximum time: 7200 seconds (2 hours)
-- Maximum allowed mistakes: 9
-- Mistake penalty: 100 points per mistake
-- Score calculation: `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)`
+1. Clone the repository on your server
+2. Install dependencies with `npm install --production`
+3. Set up environment variables
+4. Configure a process manager (PM2 recommended)
+5. Set up reverse proxy (Nginx recommended)
+6. Configure SSL certificates
+7. Start the server with `npm start` or via PM2
 
-## Team
+### PM2 Configuration Example
 
-- **Hanif Maulana** - Initiator & Blockchain Specialist
-- **Ridho Tamma** - UI/UX Designer
-- **Irham Taufik** - Server Development
-- **NUBI** - Marketing Strategist & Community Management
-- **SOB Pratama** - Marketing Strategist
+```javascript
+// ecosystem.config.js
+module.exports = {
+  apps: [{
+    name: "crypto-sudoku-backend",
+    script: "./server.js",
+    instances: "max",
+    exec_mode: "cluster",
+    env: {
+      NODE_ENV: "production",
+      PORT: 3001
+    }
+  }]
+}
+```
 
-## Contact
+Start with: `pm2 start ecosystem.config.js`
 
-- Email: info@cryptosudoku.xyz
-- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
-- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
-- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+## 🧪 Testing
+
+```bash
+# Run tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+## 🔍 Monitoring & Logging
+
+- **Health Checks**: Regular pings to `/health` endpoint
+- **Error Tracking**: Centralized error logging
+- **Performance Metrics**: Request duration and throughput tracking
+- **Audit Logs**: Record of all signature requests with anonymized data
+- **Alert System**: Notifications for critical system events
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests to ensure everything works
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE.md) file for details.
 
 ---
 
-**Play, Solve, Earn**
+<p align="center">
+  <b>Crypto Sudoku: Play, Solve, Earn</b><br>
+  <a href="https://cryptosudoku.xyz">Website</a> •
+  <a href="https://twitter.com/CryptoSudokuG">Twitter</a> •
+  <a href="https://discord.gg/8htQ6wn9Md">Discord</a> •
+  <a href="https://t.me/cryptosudokugame">Telegram</a>
+</p>
