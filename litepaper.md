@@ -1,21 +1,33 @@
 # Crypto Sudoku: Play, Solve, Earn
 ## Litepaper v1.0
 
-![Crypto Sudoku](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png" alt="Crypto Sudoku" width="250">
+</p>
 
-## Executive Summary
+<p align="center">
+  <b>The First Blockchain-Powered Skill-Based Sudoku Gaming Ecosystem</b>
+</p>
+
+---
+
+## 📑 Executive Summary
 
 Crypto Sudoku represents the next evolution in blockchain gaming by transforming the classic puzzle game Sudoku into a competitive, skill-based play-to-earn ecosystem. By combining the timeless appeal of Sudoku with blockchain technology, we've created a platform where players can showcase their puzzle-solving skills, compete in seasonal leaderboards, and earn rewards—all secured by advanced cryptographic verification.
 
-## The Problem
+---
+
+## 🔍 The Problem
 
 The current blockchain gaming landscape is saturated with:
-- Games that rely heavily on chance rather than skill
-- High entry barriers requiring significant initial investment
-- Complex gameplay mechanics that deter mainstream adoption
-- Limited engagement beyond financial speculation
+- 🎲 Games that rely heavily on chance rather than skill
+- 💰 High entry barriers requiring significant initial investment
+- 🧩 Complex gameplay mechanics that deter mainstream adoption
+- 💸 Limited engagement beyond financial speculation
 
-## Our Solution
+---
+
+## 💡 Our Solution
 
 Crypto Sudoku introduces a skill-based alternative to the play-to-earn space with:
 
@@ -25,64 +37,70 @@ Crypto Sudoku introduces a skill-based alternative to the play-to-earn space wit
 - **Fair, Transparent Competition**: Cryptographically verified scores ensure leaderboard integrity
 - **Cross-Chain Compatibility**: Initially deployed on Mint Sepolia and Monad Testnet, with plans for expansion
 
-## Key Features
+---
 
-### NFT Access System
+## 🌟 Key Features
+
+### 🔐 NFT Access System
 - Purchase a Sudoku NFT to gain permanent access to the game
 - NFT holders can submit scores to the leaderboard and compete for rewards
 - Limited edition NFTs with unique designs planned for future releases
 
-### Competitive Gameplay
+### 🏆 Competitive Gameplay
 - Seasonal leaderboards reset every 30 days
 - Scoring based on completion time and accuracy
 - Anti-cheat mechanisms with cryptographic verification
 - Season winners earn token rewards and exclusive NFTs
 
-### Scoring System
+### 📊 Scoring System
 - Points calculated based on solving speed and accuracy
 - Formula: `Points = (MAX_TIME - completionTime) - (mistakes * PENALTY)`
 - Strategic decision-making: solving quickly vs. minimizing mistakes
 - Leaderboards showcase top 100 players per season
 
-### Cross-Chain Architecture
+### ⛓️ Cross-Chain Architecture
 - Initially deployed on Mint Sepolia and Monad Testnet
 - Smart contract architecture designed for multi-chain expansion
 - Shared leaderboard system across networks
 - Unified player experience regardless of preferred blockchain
 
-## Technology Stack
+---
+
+## 🔧 Technology Stack
 
 Crypto Sudoku is built on a robust technology stack that ensures security, scalability, and a seamless user experience:
 
-### Frontend
+### 🖥️ Frontend
 - React framework for responsive, interactive gameplay
 - Web3 integration through RainbowKit, Wagmi, and Viem
 - Light/dark themes and responsive design for all devices
 - Optimized animation and sound effects
 
-### Backend
+### 🖧 Backend
 - Node.js server for score verification
 - Cryptographic signature system prevents manipulation
 - Multi-chain support with unified API endpoints
 - Efficient score validation and submission
 
-### Smart Contracts
+### 📝 Smart Contracts
 - Gas-optimized Solidity contracts
 - ERC-721 standard for NFT issuance
 - Custom leaderboard contract with season management
 - Cryptographic verification of scores with ECDSA
 
-### Security Features
+### 🔒 Security Features
 - Server-side signature generation
 - Puzzles hashed for verification
 - Timestamp-based signature uniqueness
 - Storage-optimized data structures
 
-## Token Ecosystem: $SUDO (Preliminary Model)
+---
+
+## 💰 Token Ecosystem: $SUDO (Preliminary Model)
 
 The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. **Note: The following tokenomics model is preliminary and subject to refinement based on investor feedback and market conditions.**
 
-### Proposed Token Distribution
+### 📊 Proposed Token Distribution
 - **Total Supply**: 1.000.000.000 $SUDO
 - **Player Rewards & Ecosystem**: 35% - Fuels gameplay rewards, tournaments, and community growth
 - **Airdrop & Early Testers**: 5% - Rewarding early adopters, beta testers, and community contributors
@@ -91,7 +109,47 @@ The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. 
 - **Development Fund**: 15% - Ongoing platform development and technical improvements
 - **Team & Advisors**: 10% - 24-month vesting with 6-month cliff
 
-### Potential Token Utility & Value Drivers
+<p align="center">
+  <table>
+    <tr>
+      <td><b>Allocation</b></td>
+      <td><b>Percentage</b></td>
+      <td><b>Purpose</b></td>
+    </tr>
+    <tr>
+      <td>Player Rewards & Ecosystem</td>
+      <td align="center">35%</td>
+      <td>Gameplay rewards, tournaments, community</td>
+    </tr>
+    <tr>
+      <td>Private Sale & Strategic Partners</td>
+      <td align="center">20%</td>
+      <td>Early backers (with vesting)</td>
+    </tr>
+    <tr>
+      <td>Liquidity Pool</td>
+      <td align="center">15%</td>
+      <td>Market stability & trading</td>
+    </tr>
+    <tr>
+      <td>Development Fund</td>
+      <td align="center">15%</td>
+      <td>Technical improvements & development</td>
+    </tr>
+    <tr>
+      <td>Team & Advisors</td>
+      <td align="center">10%</td>
+      <td>24-month vesting with 6-month cliff</td>
+    </tr>
+    <tr>
+      <td>Airdrop & Early Testers</td>
+      <td align="center">5%</td>
+      <td>Early adopters & testers</td>
+    </tr>
+  </table>
+</p>
+
+### 🔄 Potential Token Utility & Value Drivers
 - **Competitive Rewards**: Top players in seasonal leaderboards earn $SUDO tokens
 - **Staking Benefits**: Stake $SUDO to receive enhanced rewards and exclusive NFTs
 - **Governance Rights**: Token holders influence development priorities and game parameters
@@ -100,13 +158,13 @@ The $SUDO token will form the economic backbone of the Crypto Sudoku ecosystem. 
 - **Deflationary Mechanisms**: Token burning from tournament fees and premium features
 - **Cross-Chain Functionality**: Designed for seamless operation across multiple blockchains
 
-### Community Engagement Strategy
+### 🤝 Community Engagement Strategy
 - **Airdrop Program**: Strategic token distribution to early players, testers, and engaged community members
 - **Beta Tester Rewards**: Special allocation for users who help identify bugs and optimize gameplay
 - **Referral System**: Token incentives for bringing new players into the ecosystem
 - **Community Challenges**: Regular events with token rewards to maintain engagement
 
-### Flexible Economic Model
+### 📈 Flexible Economic Model
 We are committed to developing a sustainable token economy that provides value to all stakeholders. We welcome input from strategic investors on:
 
 - Optimal token distribution ratios
@@ -119,7 +177,9 @@ We are committed to developing a sustainable token economy that provides value t
 
 Our goal is to collaborate with our investors to create the most effective tokenomics model that balances player incentives, investor returns, and long-term project sustainability.
 
-## Roadmap
+---
+
+## 🗺️ Roadmap
 
 ### Phase 1: Foundation & Market Validation
 - **Successful Testnet Launch**: Functional gameplay deployed on Mint Sepolia and Monad Testnet with cryptographic verification system
@@ -147,38 +207,65 @@ Our goal is to collaborate with our investors to create the most effective token
 
 We are committed to maintaining open communication and transparency with our investors throughout the development process. We welcome suggestions, feedback, and strategic input from our investment partners as we refine our roadmap and implementation strategy. Our goal is to create a collaborative environment where investor insights help shape the future of Crypto Sudoku.
 
-## Team
+---
+
+## 👥 Team
 
 Our multidisciplinary team combines expertise in blockchain development, game design, and competitive gaming:
 
-- **Hanif Maulana** - Founder & Blockchain Specialist
-- **Ridho Tamma** - UI/UX Designer
-- **Irham Taufik** - Server Development
-- **NUBI** - Marketing Strategist & Community Management 
-- **SOB Pratama** - Marketing Strategist
+<p align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Name</b></td>
+      <td align="center"><b>Role</b></td>
+    </tr>
+    <tr>
+      <td><b>Hanif Maulana</b></td>
+      <td>Founder & Blockchain Specialist</td>
+    </tr>
+    <tr>
+      <td><b>Ridho Tamma</b></td>
+      <td>UI/UX Designer</td>
+    </tr>
+    <tr>
+      <td><b>Irham Taufik</b></td>
+      <td>Server Development</td>
+    </tr>
+    <tr>
+      <td><b>NUBI</b></td>
+      <td>Marketing Strategist & Community Management</td>
+    </tr>
+    <tr>
+      <td><b>SOB Pratama</b></td>
+      <td>Marketing Strategist</td>
+    </tr>
+  </table>
+</p>
 
-## Investment Opportunity
+---
+
+## 💼 Investment Opportunity
 
 Crypto Sudoku represents a unique investment opportunity in the expanding play-to-earn space:
 
-### Market Potential
+### 📊 Market Potential
 - Global puzzle game market valued at $18.4 billion in 2023
 - Play-to-earn sector projected to reach $65 billion by 2027
 - Over 500 million people worldwide play Sudoku
 
-### Competitive Advantage
+### 🏆 Competitive Advantage
 - First mover in skill-based puzzle gaming on blockchain
 - Accessible to mainstream audiences with familiar gameplay
 - Low entry cost compared to other blockchain games
 - Cross-chain compatibility for maximum reach
 
-### Revenue Streams
+### 💹 Revenue Streams
 - NFT minting and sales (primary and secondary)
 - Tournament entry fees
 - Branded partnerships and sponsorships
 - Premium features and customization options
 
-### Investment Approach
+### 🤝 Investment Approach
 We are currently seeking strategic investors who can provide not just capital, but also:
 - Expertise in token economics and market positioning
 - Network connections for exchange listings and partnerships
@@ -187,14 +274,18 @@ We are currently seeking strategic investors who can provide not just capital, b
 
 Our team is open to discussions on investment terms, token allocation, and strategic direction to create mutual value and long-term success.
 
-## Connect With Us
+---
 
-- **Website**: [cryptosudoku.xyz](https://cryptosudoku.xyz)
-- **Twitter**: [@CryptoSudokuG](https://twitter.com/CryptoSudokuG)
-- **Discord**: [discord.gg/cryptosudoku](https://discord.gg/8htQ6wn9Md)
-- **Telegram**: [t.me/cryptosudokugame](https://t.me/cryptosudokugame)
-- **Email**: [info@cryptosudoku.xyz](mailto:info@cryptosudoku.xyz)
+## 📞 Connect With Us
+
+<p align="center">
+  <a href="https://cryptosudoku.xyz">🌐 Website: cryptosudoku.xyz</a><br>
+  <a href="https://twitter.com/CryptoSudokuG">🐦 Twitter: @CryptoSudokuG</a><br>
+  <a href="https://discord.gg/8htQ6wn9Md">💬 Discord: discord.gg/cryptosudoku</a><br>
+  <a href="https://t.me/cryptosudokugame">📱 Telegram: t.me/cryptosudokugame</a><br>
+  <a href="mailto:info@cryptosudoku.xyz">📧 Email: info@cryptosudoku.xyz</a>
+</p>
 
 ---
 
-*This litepaper presents a preliminary vision that is subject to change based on investor feedback, market conditions, and technological developments. It is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any securities, tokens or other financial instruments.*
+<p align="center"><i>This litepaper presents a preliminary vision that is subject to change based on investor feedback, market conditions, and technological developments. It is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any securities, tokens or other financial instruments.</i></p>
