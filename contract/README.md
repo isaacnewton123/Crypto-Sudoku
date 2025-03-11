@@ -1,12 +1,18 @@
 # Crypto Sudoku Smart Contracts
 
-Blockchain infrastructure for the Crypto Sudoku game, featuring NFT ownership verification and leaderboard management.
+![Crypto Sudoku Logo](https://raw.githubusercontent.com/isaacnewton123/sudoku-NFT/refs/heads/main/Removal-779.png)
 
-## Overview
+## Blockchain infrastructure for the Crypto Sudoku game
 
-This repository contains the Solidity smart contracts that power the Crypto Sudoku game. The contracts handle NFT minting, ownership verification, and the global leaderboard system with seasonal competitions.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Mint Sepolia](https://img.shields.io/badge/Mint%20Sepolia-Deployed-brightgreen)](https://sepolia-testnet-explorer.mintchain.io/address/0x5E5b7277FFD01CC442184a1c2d375F421f3a1562)
+[![Monad Testnet](https://img.shields.io/badge/Monad%20Testnet-Deployed-brightgreen)](https://monad-testnet.socialscan.io/address/0x74ffe581f893a630db0094757eb8f9c47108606b)
 
-## Contracts
+## 🌟 Overview
+
+This directory contains the Solidity smart contracts that power the Crypto Sudoku game. The contracts handle NFT minting, ownership verification, and the global leaderboard system with seasonal competitions.
+
+## 📑 Contract Architecture
 
 ### SudokuNFT.sol
 
@@ -26,16 +32,16 @@ contract SudokuNFT is ERC721Enumerable, Ownable, ReentrancyGuard {
 }
 ```
 
-**Features:**
-- Fixed mint price (0.01 ETH)
-- Maximum supply cap (10,000 NFTs)
-- One mint per wallet restriction (except for owner)
-- On-chain metadata and image
-- Secure owner withdrawal function with reentrancy protection
-- Enhanced error handling with custom error types
-- Automatic token ID incrementing
-- Token supply tracking
-- Minting status control
+**Key Features:**
+- ✅ Fixed mint price (0.01 ETH)
+- ✅ Maximum supply cap (10,000 NFTs)
+- ✅ One mint per wallet restriction (except for owner)
+- ✅ On-chain metadata and image
+- ✅ Secure owner withdrawal function with reentrancy protection
+- ✅ Enhanced error handling with custom error types
+- ✅ Automatic token ID incrementing
+- ✅ Token supply tracking
+- ✅ Minting status control
 
 ### Sudoku_Leaderboard_Optimized.sol
 
@@ -63,91 +69,79 @@ contract Sudoku_Leaderboard_Optimized {
 }
 ```
 
-**Features:**
-- Seasonal competition system (30-day seasons)
-- Cryptographic signature verification for score submissions
-- Gas-optimized data structures for efficient storage
-- Top 100 scores per season with automatic sorting
-- Pagination support for frontend display
-- Configurable scoring system based on time and mistakes
+**Key Features:**
+- ✅ Seasonal competition system (30-day seasons)
+- ✅ Cryptographic signature verification for score submissions
+- ✅ Gas-optimized data structures for efficient storage
+- ✅ Top 100 scores per season with automatic sorting
+- ✅ Pagination support for frontend display
+- ✅ Configurable scoring system based on time and mistakes
 
-## Game Constants
+## ⚙️ Game Constants
 
-- **Season Duration**: 30 days
-- **Grace Period**: 1 day (after season end)
-- **Maximum Scores Per Season**: 100
-- **Maximum Time**: 7200 seconds (2 hours)
-- **Maximum Mistakes**: 9
-- **Mistake Penalty**: 100 points per mistake
-- **Score Calculation**: `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)`
+| Constant | Value | Purpose |
+|----------|-------|---------|
+| Season Duration | 30 days | Length of each competition period |
+| Grace Period | 1 day | Buffer after season end |
+| Maximum Scores Per Season | 100 | Top scores stored on-chain |
+| Maximum Time | 7200 seconds | Time limit (2 hours) |
+| Maximum Mistakes | 9 | Mistake allowance per game |
+| Mistake Penalty | 100 points | Points deducted per mistake |
+| Score Calculation | `points = (MAX_TIME - timeSeconds) - (mistakes * MISTAKE_PENALTY)` | Formula for point calculation |
 
-## NFT Contract Updates
+## 🔐 Security Considerations
 
-The new SudokuNFT contract includes several improvements:
+- 🛡️ **Optimized Data Types**: Carefully chosen for minimal gas costs while maintaining security
+- 🛡️ **ReentrancyGuard**: Protects against reentrancy attacks in critical functions
+- 🛡️ **Check-Effects-Interactions**: Secure pattern used throughout for state transitions
+- 🛡️ **Signature Verification**: Prevents unauthorized score submissions
+- 🛡️ **Storage Efficiency**: Only top 100 scores stored to prevent spam and save gas
+- 🛡️ **Access Controls**: Verifier address controlled by the contract owner
+- 🛡️ **Emergency Functions**: Seasons can be force-ended by the owner if needed
 
-- **Enhanced Security**: Added ReentrancyGuard to prevent reentrancy attacks
-- **Improved Token Management**: Implemented ERC721Enumerable for better token tracking
-- **Supply Cap**: Added a MAX_SUPPLY of 10,000 NFTs
-- **Anti-Spam Feature**: One mint per wallet restriction (except for owner)
-- **Custom Error Types**: Replaced require statements with custom errors for better gas efficiency
-- **Minting Control**: Added ability to enable/disable minting
-- **Better Metadata Handling**: Memory variables instead of constants for NFT properties
-- **Comprehensive Events**: Added events for all important state changes
+## 📡 Deployment Information
 
-## Score Verification System
+### Networks
 
-The contracts use a secure verification system:
+| Network | Chain ID | NFT Contract | Leaderboard Contract |
+|---------|----------|--------------|----------------------|
+| **Mint Sepolia Testnet** | 1687 | [`0x5E5b7277FFD01CC442184a1c2d375F421f3a1562`](https://sepolia-testnet-explorer.mintchain.io/address/0x5E5b7277FFD01CC442184a1c2d375F421f3a1562) | [`0x6b3fddfccfc1f7ccf54f890766e24c5d65697898`](https://sepolia-testnet-explorer.mintchain.io/address/0x6b3fddfccfc1f7ccf54f890766e24c5d65697898) |
+| **Monad Testnet** | 10143 | [`0x74ffe581f893a630db0094757eb8f9c47108606b`](https://monad-testnet.socialscan.io/address/0x74ffe581f893a630db0094757eb8f9c47108606b) | [`0x2a2f9179b137a1fb718f3290cb5bda730c89dec6`](https://monad-testnet.socialscan.io/address/0x2a2f9179b137a1fb718f3290cb5bda730c89dec6) |
 
-1. The backend server signs the player's score with a trusted private key
-2. The signature includes: time, mistakes, puzzle hash, and player address
-3. The smart contract verifies the signature before accepting the score
-4. This prevents cheating and ensures only legitimate scores enter the leaderboard
+## 💻 Development Guide
 
-## Deployment Information
+### Required Tools
+- Node.js v16+ and NPM
+- Hardhat
+- Ethers.js
 
-**Networks:**
+### Setup
 
-1. **Mint Sepolia Testnet (ChainID: 1687)**
-   - NFT Contract: `0x5E5b7277FFD01CC442184a1c2d375F421f3a1562`
-   - Leaderboard Contract: `0x6b3fddfccfc1f7ccf54f890766e24c5d65697898`
-
-2. **Monad Testnet (ChainID: 10143)**
-   - NFT Contract: `0x74ffe581f893a630db0094757eb8f9c47108606b`
-   - Leaderboard Contract: `0x2a2f9179b137a1fb718f3290cb5bda730c89dec6`
-
-## Development Setup
-
-1. Install dependencies:
 ```bash
+# Install dependencies
 npm install
-```
 
-2. Compile contracts:
-```bash
+# Compile contracts
 npx hardhat compile
-```
 
-3. Run tests:
-```bash
+# Run tests
 npx hardhat test
-```
 
-4. Deploy to testnet:
-```bash
+# Deploy to testnet (example for Mint Sepolia)
 npx hardhat run scripts/deploy.js --network mintsepolia
 ```
 
-## Security Considerations
+### Environment Configuration
 
-- The contracts use optimized data types to reduce gas costs while maintaining security
-- ReentrancyGuard protects against reentrancy attacks in critical functions
-- Check-Effects-Interactions pattern used throughout for secure state transitions
-- Signature verification prevents unauthorized score submissions
-- Only scores in the top 100 are stored to prevent spam and save gas
-- The verifier address is controlled by the contract owner
-- Seasons can be force-ended by the owner in case of emergency
+Create a `.env` file with the following variables:
+```
+PRIVATE_KEY=your_wallet_private_key
+MINT_SEPOLIA_RPC_URL=https://sepolia-testnet-rpc.mintchain.io
+MONAD_TESTNET_RPC_URL=https://testnet-rpc.monad.xyz
+ETHERSCAN_API_KEY=your_etherscan_api_key
+```
 
-## Contract Interfaces
+## 📝 Contract Interfaces
 
 ### NFT Contract
 
@@ -198,25 +192,26 @@ function getSeasonInfo(uint16 _season) external view returns (
 );
 ```
 
-## License
+## 🤝 Contributing
 
-MIT License
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests to ensure everything works
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
-## Team
+## 📄 License
 
-- **Hanif Maulana** - Initiator & Blockchain Specialist
-- **Ridho Tamma** - UI/UX Designer
-- **Irham Taufik** - Server Development
-- **NUBI** - Marketing Strategist & Community Management
-- **SOB Pratama** - Marketing Strategist
-
-## Contact
-
-- Email: info@cryptosudoku.xyz
-- Twitter: [@CryptoSudokuG](https://x.com/CryptoSudokuG)
-- Discord: [Join our server](https://discord.gg/8htQ6wn9Md)
-- Telegram: [@cryptosudokugame](https://t.me/cryptosudokugame)
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ---
 
-**Play, Solve, Earn**
+<p align="center">
+  <b>Crypto Sudoku: Play, Solve, Earn</b><br>
+  <a href="https://cryptosudoku.xyz">Website</a> •
+  <a href="https://twitter.com/CryptoSudokuG">Twitter</a> •
+  <a href="https://discord.gg/8htQ6wn9Md">Discord</a> •
+  <a href="https://t.me/cryptosudokugame">Telegram</a>
+</p>
