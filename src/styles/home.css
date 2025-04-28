@@ -1,0 +1,346 @@
+/* src/styles/home.css */
+:root {
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary-color: #64748b;
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --error-color: #ef4444;
+  --success-color: #22c55e;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --surface-opacity: 0.9;
+}
+
+/* Dark theme */
+:root.dark {
+  --primary-color: #818cf8;
+  --primary-hover: #6366f1;
+  --secondary-color: #94a3b8;
+  --background-color: #1e293b;
+  --surface-color: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --error-color: #f87171;
+  --success-color: #4ade80;
+  --border-color: #334155;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --background-gradient: linear-gradient(135deg, #1a1f35 0%, #0f172a 100%);
+  --surface-opacity: 0.95;
+}
+
+/* System theme preference */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --primary-color: #818cf8;
+    --primary-hover: #6366f1;
+    --secondary-color: #94a3b8;
+    --background-color: #1e293b;
+    --surface-color: #0f172a;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --error-color: #f87171;
+    --success-color: #4ade80;
+    --border-color: #334155;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --background-gradient: linear-gradient(135deg, #1a1f35 0%, #0f172a 100%);
+    --surface-opacity: 0.95;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background-gradient);
+  padding: 20px;
+  color: var(--text-primary);
+}
+
+.home-container {
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(var(--surface-color), var(--surface-opacity));
+  border-radius: 24px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+.home-content {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.home-title {
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+.status-message {
+  font-size: 1.2rem;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  line-height: 1.6;
+  background: var(--surface-color);
+}
+
+.status-message.error {
+  color: var(--error-color);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.status-message.success {
+  color: var(--success-color);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.status-message a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.status-message a:hover {
+  opacity: 0.8;
+}
+
+.wallet-section {
+  margin: 2rem 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.btn-large {
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  min-width: 200px;
+}
+
+/* Game specific styles */
+.container {
+  max-width: 800px;
+  width: 100%;
+  background: var(--surface-color);
+  border-radius: 24px;
+  box-shadow: 0 10px 15px -3px var(--shadow-color);
+  padding: 24px;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.game-title {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+  background: var(--background-color);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Leaderboard Styles */
+.leaderboard-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.leaderboard-content {
+  background: var(--surface-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.leaderboard-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.leaderboard-list {
+  list-style: none;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.leaderboard-address {
+  font-family: monospace;
+  color: var(--text-secondary);
+}
+
+.leaderboard-time {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.game-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.fixed-controls {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.faq-btn {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.game-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.connect-wallet-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .home-content {
+    padding: 2rem 1rem;
+  }
+
+  .home-title {
+    font-size: 2.5rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-large {
+    width: 100%;
+    min-width: unset;
+  }
+}

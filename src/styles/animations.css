@@ -1,0 +1,16 @@
+/* src/styles/animations.css */
+@keyframes correct-flash {
+  50% { background-color: rgba(34, 197, 94, 0.2); }
+}
+
+@keyframes error-flash {
+  50% { background-color: rgba(239, 68, 68, 0.2); }
+}
+
+.correct {
+  animation: correct-flash 0.5s;
+}
+
+.error {
+  animation: error-flash 0.5s;
+}

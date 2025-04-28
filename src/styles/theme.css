@@ -1,0 +1,75 @@
+/* src/styles/theme.css */
+:root {
+    /* Light theme */
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #64748b;
+    --background-color: #f8fafc;
+    --surface-color: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --border-color: #e2e8f0;
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+  
+  /* Dark theme */
+  :root.dark {
+    --primary-color: #818cf8;
+    --primary-hover: #6366f1;
+    --secondary-color: #94a3b8;
+    --background-color: #1e293b;
+    --surface-color: #0f172a;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --error-color: #f87171;
+    --success-color: #4ade80;
+    --border-color: #334155;
+    --modal-overlay: rgba(0, 0, 0, 0.7);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --background-gradient: linear-gradient(135deg, #1a1f35 0%, #0f172a 100%);
+  }
+  
+  /* System theme preference */
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light):not(.dark) {
+      --primary-color: #818cf8;
+      --primary-hover: #6366f1;
+      --secondary-color: #94a3b8;
+      --background-color: #1e293b;
+      --surface-color: #0f172a;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --error-color: #f87171;
+      --success-color: #4ade80;
+      --border-color: #334155;
+      --modal-overlay: rgba(0, 0, 0, 0.7);
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --background-gradient: linear-gradient(135deg, #1a1f35 0%, #0f172a 100%);
+    }
+  }
+  
+  /* Apply base transitions */
+  * {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+  
+  /* Apply theme to body */
+  body {
+    background: var(--background-gradient);
+    color: var(--text-primary);
+  }
+  
+  /* Game container specific */
+  .game-container {
+    background: var(--surface-color);
+    color: var(--text-primary);
+  }
+
+

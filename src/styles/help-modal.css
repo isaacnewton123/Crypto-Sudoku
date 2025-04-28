@@ -1,0 +1,285 @@
+/* src/styles/help-modal.css */
+.help-modal {
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.help-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.help-tabs::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.tab-button {
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+
+.tab-button:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.tab-button.active {
+  color: var(--primary-color);
+}
+
+.tab-button.active:after {
+  background: var(--primary-color);
+}
+
+.tab-content {
+  margin-bottom: 1.5rem;
+}
+
+/* Rules Tab */
+.rule-item, .control-item, .scoring-item, .nft-item {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  background: var(--background-color);
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.rule-item:hover, .control-item:hover, .scoring-item:hover, .nft-item:hover {
+  transform: translateY(-2px);
+}
+
+.rule-icon, .control-icon, .scoring-icon, .nft-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.rule-text, .control-text, .scoring-text, .nft-text {
+  flex: 1;
+}
+
+.rule-text p, .control-text p, .scoring-text p, .nft-text p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+/* Scoring Tab */
+.scoring-formula {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.formula-box {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formula {
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+/* NFT Tab */
+.mint-info {
+  margin-top: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+}
+
+.mint-info a {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.mint-info a:hover {
+  text-decoration: none;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 576px) {
+  .help-modal {
+    padding: 1rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .rule-icon, .control-icon, .scoring-icon, .nft-icon {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+  }
+  
+  .formula {
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode support */
+:root.dark .rule-item, 
+:root.dark .control-item, 
+:root.dark .scoring-item, 
+:root.dark .nft-item {
+  background: var(--surface-color);
+}
+
+:root.dark .formula-box {
+  background: var(--primary-color);
+  color: white;
+}
+
+:root.dark .mint-info {
+  background: var(--primary-color);
+}
+
+:root.dark .mint-info a {
+  color: white;
+}
+
+/* Tambahkan ini ke file help-modal.css */
+
+/* Optimasi untuk layar 720p */
+.help-modal-720p {
+  max-height: 600px; /* Tinggi maksimum untuk layar 720p */
+  overflow-y: visible;
+  padding: 1rem;
+}
+
+.help-modal-720p .help-header {
+  margin-bottom: 0.5rem;
+}
+
+.help-modal-720p .tab-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.help-modal-720p h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.help-modal-720p .tab-content {
+  margin-bottom: 0.75rem;
+}
+
+/* Grid layout untuk item-item */
+.compact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+/* Item styling yang lebih ringkas */
+.help-modal-720p .rule-item, 
+.help-modal-720p .control-item, 
+.help-modal-720p .scoring-item, 
+.help-modal-720p .nft-item {
+  margin-bottom: 0;
+  padding: 0.5rem;
+  min-height: auto;
+}
+
+.help-modal-720p .rule-icon, 
+.help-modal-720p .control-icon, 
+.help-modal-720p .scoring-icon, 
+.help-modal-720p .nft-icon {
+  font-size: 1.25rem;
+  min-width: 1.5rem;
+}
+
+.help-modal-720p .rule-text p, 
+.help-modal-720p .control-text p, 
+.help-modal-720p .scoring-text p, 
+.help-modal-720p .nft-text p {
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+/* Formulir scoring yang lebih ringkas */
+.help-modal-720p .scoring-formula {
+  margin-bottom: 0.5rem;
+}
+
+.help-modal-720p .formula-box {
+  padding: 0.5rem;
+}
+
+.help-modal-720p .formula {
+  font-size: 0.9rem;
+}
+
+/* NFT Mint info yang lebih ringkas */
+.mint-info-compact {
+  margin-top: 0.75rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 6px;
+}
+
+.mint-info-compact a {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.mint-info-compact a:hover {
+  text-decoration: none;
+}
+
+/* Footer yang lebih ringkas */
+.help-modal-720p .modal-footer {
+  margin-top: 0.5rem;
+}
+
+.help-modal-720p .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}

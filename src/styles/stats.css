@@ -1,0 +1,93 @@
+/* stats.css */
+:root {
+  --background-color: #f5f5f5;
+  --text-secondary: #666;
+  --primary-color: #3426b1;
+  --error-color: #ff4444;
+  --success-color: #44ff44;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.stat-max {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Tambahkan di stats.css */
+.points-display {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.points-value {
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.points-label {
+  font-size: 0.875rem;
+}
+
+/* Tambahkan ke stats.css */
+
+.points-display {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.points-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.points-label {
+  font-size: 0.875rem;
+}
+
+.points-formula {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  font-family: monospace;
+  padding-left: 0.5rem;
+}
