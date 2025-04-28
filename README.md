@@ -217,11 +217,10 @@ Our vision for Crypto Sudoku includes:
 
 Our experienced team combines blockchain expertise with game development skills:
 
-- **Hanif Maulana** - Initiator & Blockchain Specialist
-- **Ridho Tamma** - UI/UX Designer
-- **Irham Taufik** - Server Development
-- **NUBI** - Marketing Strategist & Community Management
-- **SOB Pratama** - Marketing Strategist
+- **Hanif Maulana** - Initiator & Prompting Engineer
+- **Claude AI** - UI/UX Designer
+- **Claude AI** - Server Development
+- **Claude AI** - Blockchain Specialist
 
 ## 🤝 Contributing
 
